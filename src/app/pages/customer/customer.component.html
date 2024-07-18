@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="up d-flex">
+    <h2>Clientes</h2>
+    <a class="button-content" (click)="addCustomer()">
+      <i class="material-symbols-outlined icon">add_circle</i>Cliente
+    </a>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customerList">
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.phone }}</td>
+        <td>{{ customer.email }}</td>
+        <td style="text-align: right">
+          <a class="material-symbols-outlined mr-2"> edit_square</a>
+          <a class="material-symbols-outlined"> delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- <h3>Add New Customer</h3>
+  <div>
+    <input placeholder="Name" />
+    <input placeholder="Email" />
+    <button>Add</button>
+  </div> -->
+</div>

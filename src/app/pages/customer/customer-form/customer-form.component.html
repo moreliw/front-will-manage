@@ -1,0 +1,114 @@
+<div class="general">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1 class="titulo-pagina">
+        {{ isEdit ? "Editar" : "Adicionar" }} {{ title }}
+      </h1>
+    </div>
+  </div>
+  <form
+    [formGroup]="formValue"
+    class="form-validate form-horizontal"
+    novalidate=""
+  >
+    <div class="form-group row input-line col-lg-8">
+      <div class="group-input">
+        <label> Nome </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+      <div class="group-input">
+        <label> Telefone </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+      <div class="group-input">
+        <label> Email </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+      <div class="group-input">
+        <label> Saldo </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+    </div>
+    <div class="form-group row input-line">
+      <div class="group-input">
+        <label> Saldo </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+      <div class="group-input">
+        <label> Saldo </label>
+        <input class="form-control" type="text" formControlName="description" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['description'].hasError('required') &&
+            (formValue.controls['description'].dirty ||
+              formValue.controls['description'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-4 row">
+    <div class="upload-button upload-button-content mr-3 ml-3">
+      <a (click)="goBack()" class="upload-button-content-inside"> Cancelar </a>
+    </div>
+    <div class="add-button">
+      <a class="button-content">
+        {{ isEdit ? "Salvar alterações" : "Adicionar" }}
+      </a>
+    </div>
+  </div>
+</div>
