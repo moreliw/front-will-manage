@@ -1,114 +1,60 @@
 <div class="general">
   <div class="row">
+    <a class="material-symbols-outlined icon-back" (click)="goBack()"
+      >arrow_back</a
+    >
     <div class="col-sm-6">
       <h1 class="titulo-pagina">
         {{ isEdit ? "Editar" : "Adicionar" }} {{ title }}
       </h1>
     </div>
   </div>
-  <form
-    [formGroup]="formValue"
-    class="form-validate form-horizontal"
-    novalidate=""
-  >
-    <div class="form-group row input-line col-lg-8">
-      <div class="group-input">
-        <label> Nome </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
+  <div class="mt-4 mb-4">
+    <form
+      [formGroup]="formValue"
+      class="form-validate form-horizontal"
+      novalidate=""
+    >
+      <div class="form-group row col-lg-12">
+        <div class="group-input col-lg-3">
+          <label> Nome </label>
+          <input class="form-control" type="text" formControlName="name" />
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['name'].hasError('required') &&
+              (formValue.controls['name'].dirty ||
+                formValue.controls['name'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-3">
+          <label> Telefone </label>
+          <input class="form-control" type="text" formControlName="phone" />
+        </div>
+        <div class="group-input col-lg-3">
+          <label> Email </label>
+          <input class="form-control" type="text" formControlName="email" />
+        </div>
       </div>
-      <div class="group-input">
-        <label> Telefone </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
-      </div>
-      <div class="group-input">
-        <label> Email </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
-      </div>
-      <div class="group-input">
-        <label> Saldo </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
-      </div>
-    </div>
-    <div class="form-group row input-line">
-      <div class="group-input">
-        <label> Saldo </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
-      </div>
-      <div class="group-input">
-        <label> Saldo </label>
-        <input class="form-control" type="text" formControlName="description" />
-        <span
-          class="text-danger"
-          *ngIf="
-            formValue.controls['description'].hasError('required') &&
-            (formValue.controls['description'].dirty ||
-              formValue.controls['description'].touched)
-          "
-        >
-          Este campo é obrigatório
-        </span>
-      </div>
-    </div>
-  </form>
 
-  <div class="mt-4 row">
-    <div class="upload-button upload-button-content mr-3 ml-3">
-      <a (click)="goBack()" class="upload-button-content-inside"> Cancelar </a>
-    </div>
-    <div class="add-button">
+      <div class="form-group row col-lg-12">
+        <div class="group-input col-lg-3">
+          <label> Saldo inicial</label>
+          <input class="form-control" type="number" formControlName="balance" />
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-4 row align-button" [class.disabled]="formValue.invalid">
+    <div class="add-button" (click)="isEdit ? updateCustomer() : addCustomer()">
       <a class="button-content">
         {{ isEdit ? "Salvar alterações" : "Adicionar" }}
       </a>
     </div>
   </div>
 </div>
+<app-loading *ngIf="loading"></app-loading>

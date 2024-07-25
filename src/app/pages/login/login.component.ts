@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { LoginModel } from 'src/app/models/login';
 
 @Component({
   selector: 'app-login',
@@ -10,22 +11,23 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
-
+  loading = false;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
-    this.authService
-      .login({ email: this.username, password: this.password })
-      .subscribe(
-        (response) => {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/dashboard']);
-        },
-        (error) => {
-          console.error('Erro ao fazer login:', error);
-        }
-      );
+    this.loading = true;
+
+    const login = new LoginModel();
+    login.Email = this.username;
+    login.Password = this.password;
+
+    this.authService.login(login).subscribe((response) => {
+      localStorage.setItem('accessToken', response.token);
+      this.loading = false;
+
+      this.router.navigate(['/customers']);
+    });
   }
 }

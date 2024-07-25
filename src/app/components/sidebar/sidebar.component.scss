@@ -24,6 +24,7 @@ body {
 
 .main {
   width: 100%;
+  padding: 0;
 }
 
 .wrapper {
@@ -101,6 +102,11 @@ a.sidebar-link:hover {
 
 .sidebar-item {
   position: relative;
+  cursor: pointer;
+}
+
+.sidebar-footer {
+  cursor: pointer;
 }
 
 #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {

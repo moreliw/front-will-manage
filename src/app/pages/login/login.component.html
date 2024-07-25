@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()">
+<!-- <form (ngSubmit)="onSubmit()">
   <input
     type="text"
     [(ngModel)]="username"
@@ -14,4 +14,41 @@
     required
   />
   <button type="submit">Login</button>
-</form>
+</form> -->
+
+<div class="container">
+  <div class="screen">
+    <div class="screen__content">
+      <div class="align-button" style="margin-top: 4rem">
+        <h1>Will Manage</h1>
+      </div>
+      <form class="login" (ngSubmit)="onSubmit()">
+        <div class="login__field">
+          <input
+            type="text"
+            [(ngModel)]="username"
+            name="username"
+            class="login__input"
+            placeholder="Usuário"
+          />
+        </div>
+        <div class="login__field">
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            class="login__input"
+            placeholder="Senha"
+          />
+        </div>
+        <div class="align-button">
+          <button class="button login__submit" type="submit">
+            <span class="button__text">Entrar</span>
+            <i class="button__icon fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

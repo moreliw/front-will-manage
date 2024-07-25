@@ -1,6 +1,6 @@
 <div class="container">
   <div class="up d-flex">
-    <h2>Clientes</h2>
+    <h2 class="title">Clientes</h2>
     <a class="button-content" (click)="addCustomer()">
       <i class="material-symbols-outlined icon">add_circle</i>Cliente
     </a>
@@ -12,6 +12,7 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>Email</th>
+        <th class="text-center">Saldo</th>
         <th class="text-right"></th>
       </tr>
     </thead>
@@ -20,18 +21,31 @@
         <td>{{ customer.name }}</td>
         <td>{{ customer.phone }}</td>
         <td>{{ customer.email }}</td>
+        <td class="align-balance">
+          <a
+            class="material-symbols-outlined mr-1"
+            (click)="openBalance(customer.id, customer.balance)"
+            matTooltip="Ajuste de saldo"
+            >paid</a
+          >
+          {{ toMoney(customer.balance) }}
+        </td>
         <td style="text-align: right">
-          <a class="material-symbols-outlined mr-2"> edit_square</a>
-          <a class="material-symbols-outlined"> delete</a>
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openEditCustomer(customer.id)"
+          >
+            edit_square</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="deleteCustomer(customer.id)"
+          >
+            delete</a
+          >
         </td>
       </tr>
     </tbody>
   </table>
-
-  <!-- <h3>Add New Customer</h3>
-  <div>
-    <input placeholder="Name" />
-    <input placeholder="Email" />
-    <button>Add</button>
-  </div> -->
 </div>
+<app-loading *ngIf="loading"></app-loading>

@@ -1,0 +1,24 @@
+<div>
+  <div class="up-content">
+    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title>Ajuste de Saldo</h1>
+  </div>
+
+  <div mat-dialog-content class="content">
+    <div>
+      <label class="mr-1">Adicionar saldo</label>
+      <input type="number" class="form-control" [(ngModel)]="addBalance" />
+    </div>
+    <div class="balance-content">
+      <label class="balance-label">SALDO</label>
+      <span class="balance-value">{{ toMoney(balance + addBalance) }}</span>
+    </div>
+  </div>
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+
+    <div class="add-button" (click)="submit()">Salvar</div>
+  </div>
+</div>

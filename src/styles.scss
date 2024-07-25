@@ -17,10 +17,44 @@ body {
   border-radius: 0.5rem;
   padding: 0.5rem;
   font-size: medium;
-  border: black 1px solid;
+  border: 1px solid #7b7b7b;
 }
 
-.input-line {
-  justify-content: space-between;
+.add-button {
+  background: #0e2238;
+  padding: 0.7rem 2rem 0.7rem 2rem;
+  color: #fff;
+  border-radius: 1rem;
+  cursor: pointer;
+  align-items: center;
   display: flex;
+}
+
+.add-button:hover {
+  background: #0e223899;
+}
+
+.text-danger {
+  font-size: 0.7rem;
+}
+
+.disabled {
+  opacity: 50%;
+  pointer-events: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-dialog-container {
+  box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024,
+    0 9px 46px 8px #0000001f;
+  background: #fff;
+  color: #424242;
 }
