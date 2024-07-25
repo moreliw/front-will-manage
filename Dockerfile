@@ -14,13 +14,13 @@ RUN npm install
 COPY . .
 
 # Construa a aplicação Angular
-RUN npm run build --prod
+RUN npm run build
 
 # Etapa 2: Servir a aplicação usando nginx
 FROM nginx:1.21-alpine
 
 # Copie os arquivos de build do Angular para o diretório nginx
-COPY --from=build /app/dist/seu-projeto-angular /usr/share/nginx/html
+COPY --from=build /app/dist/front-will-manage /usr/share/nginx/html
 
 # Exponha a porta 80
 EXPOSE 80
