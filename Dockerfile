@@ -26,7 +26,7 @@ RUN npm run build:#{environment}# --configuration --output-path=/dist
 
 FROM nginx:1.12-alpine
 COPY --from=node /app/dist/ /usr/share/nginx/html
-COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx-custom.conf 
 
 CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/environment.ts > /usr/share/nginx/html/environment.prod.ts && exec nginx -g 'daemon off;'"]
 
