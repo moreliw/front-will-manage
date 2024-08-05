@@ -11,7 +11,7 @@ import { ScheduleFormComponent } from './pages/schedule/schedule-form/schedule-f
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/customers',
     pathMatch: 'full',
     canActivate: [AuthGuard],
   },
