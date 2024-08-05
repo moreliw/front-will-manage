@@ -20,6 +20,14 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/customers']);
   }
 
+  goToSchedules() {
+    this.router.navigate(['/schedule']);
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
   logout() {
     this.auth.logout();
     this.router.navigateByUrl('/login').then(() => {

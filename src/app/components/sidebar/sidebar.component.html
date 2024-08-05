@@ -9,10 +9,22 @@
       </div>
     </div>
     <ul class="sidebar-nav">
+      <!-- <li class="sidebar-item" (click)="goToDashboard()">
+        <a class="sidebar-link">
+          <i class="material-symbols-outlined"> bar_chart </i>
+          <span>Dashboard</span>
+        </a>
+      </li> -->
       <li class="sidebar-item" (click)="goToCustomers()">
         <a class="sidebar-link">
           <i class="material-symbols-outlined"> group </i>
           <span>Clientes</span>
+        </a>
+      </li>
+      <li class="sidebar-item" (click)="goToSchedules()">
+        <a class="sidebar-link">
+          <i class="material-symbols-outlined"> edit_calendar </i>
+          <span>Agendamentos</span>
         </a>
       </li>
     </ul>
@@ -23,7 +35,4 @@
       </a>
     </div>
   </aside>
-  <!-- <div class="main p-3">
-    <router-outlet></router-outlet>
-  </div> -->
 </div>

@@ -1,0 +1,87 @@
+<div>
+  <div class="up-content">
+    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title>Procedimentos</h1>
+  </div>
+
+  <form
+    [formGroup]="formValue"
+    class="form-validate form-horizontal"
+    novalidate
+  >
+    <div formArrayName="procedures">
+      <div
+        *ngFor="let procedure of procedures.controls; let i = index"
+        [formGroupName]="i"
+        class="form-group row col-lg-12"
+      >
+        <div class="group-input col-lg-1">
+          <!-- <input
+            type="checkbox"
+            class="form-control"
+            formControlName="done"
+            [checked]="procedure.get('done')"
+          /> -->
+          <app-check
+            [checked]="procedure.get('done').value"
+            (checkChange)="onChangeCheck(i, $event)"
+          ></app-check>
+        </div>
+        <div class="group-input col-lg-6">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Nome do procedimento"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              procedure.get('name').hasError('required') &&
+              (procedure.get('name').dirty || procedure.get('name').touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-4">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="procedureDate"
+          />
+        </div>
+        <div class="group-input col-lg-1 icon-remove">
+          <a
+            class="material-symbols-outlined mr-1"
+            (click)="removeProcedure(i)"
+            matTooltip="Remover procedimento"
+            >delete</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row add-procedure">
+      <a class="ml-1 add-procedure-button" (click)="addProcedure()"
+        ><i class="material-symbols-outlined mr-1">add_circle</i>Adicionar</a
+      >
+    </div>
+  </form>
+
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+    <div
+      class="add-button"
+      [class.disabled]="
+        formValue.invalid || formValue.value.procedures.length === 0
+      "
+      (click)="onSave()"
+    >
+      Salvar
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

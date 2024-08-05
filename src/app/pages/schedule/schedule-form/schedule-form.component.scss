@@ -1,0 +1,50 @@
+.general {
+  padding: 1rem;
+}
+
+.align-button {
+  justify-content: center;
+}
+
+.icon-back {
+  margin-left: 1.5rem;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.procedure-button {
+  background-color: #fff;
+  padding: 0.7rem 2rem;
+  color: #0e2238;
+  border-radius: 10px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  border: 1px solid gray;
+  align-self: end;
+  margin-left: 1rem;
+}
+
+.procedure-button:hover {
+  background-color: #ffffff55;
+}
+
+.procedure-quantity {
+  height: 2.7rem;
+  margin-bottom: 2px;
+}
+
+.procedure {
+  align-self: end;
+  background: #fff;
+  height: 2.7rem;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-left: 7px;
+  width: 6%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+}

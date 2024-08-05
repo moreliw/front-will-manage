@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="up d-flex">
+    <h2 class="title">Agendamentos</h2>
+    <a class="button-content" (click)="addSchedule()">
+      <i class="material-symbols-outlined icon">add_circle</i>Agendamento
+    </a>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th class="text-left">Data agendamento</th>
+        <th class="text-left">Hora agendamento</th>
+        <th>Cliente</th>
+        <th>Status</th>
+        <th>Observações</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of scheduleList">
+        <td class="text-left">{{ formatDate(schedule.scheduleDate) }}</td>
+        <td class="text-left">{{ formatTime(schedule.scheduleDate) }}</td>
+        <td>{{ schedule.customer.name }}</td>
+        <td>{{ EScheduleStatusLabel[schedule.status] }}</td>
+        <td>{{ schedule.observations }}</td>
+        <td style="text-align: right">
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openEditSchedule(schedule.id)"
+          >
+            edit_square</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="deleteSchedule(schedule.id)"
+          >
+            delete</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loading *ngIf="loading"></app-loading>

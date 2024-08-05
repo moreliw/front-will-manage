@@ -1,0 +1,117 @@
+<div class="general">
+  <div class="row">
+    <a class="material-symbols-outlined icon-back" (click)="goBack()"
+      >arrow_back</a
+    >
+    <div class="col-sm-6">
+      <h1 class="titulo-pagina">
+        {{ isEdit ? "Editar" : "Adicionar" }} {{ title }}
+      </h1>
+    </div>
+  </div>
+  <div class="mt-4 mb-4">
+    <form
+      [formGroup]="formValue"
+      class="form-validate form-horizontal"
+      novalidate=""
+    >
+      <div class="form-group row col-lg-12">
+        <div class="group-input col-lg-3">
+          <label> Cliente </label>
+          <ng-select
+            [items]="customerList"
+            bindLabel="name"
+            bindValue="id"
+            notFoundText="Nenhum cliente encontrado"
+            [clearable]="false"
+            formControlName="customerId"
+          >
+          </ng-select>
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['customerId'].hasError('required') &&
+              (formValue.controls['customerId'].dirty ||
+                formValue.controls['customerId'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-3">
+          <label> Data agendamento </label>
+          <input
+            class="form-control"
+            type="date"
+            formControlName="scheduleDate"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['scheduleDate'].hasError('required') &&
+              (formValue.controls['scheduleDate'].dirty ||
+                formValue.controls['scheduleDate'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-3">
+          <label> Hora agendamento </label>
+          <input
+            class="form-control"
+            type="time"
+            formControlName="scheduleTime"
+          />
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['scheduleTime'].hasError('required') &&
+              (formValue.controls['scheduleTime'].dirty ||
+                formValue.controls['scheduleTime'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+      </div>
+      <div class="form-group row col-lg-12">
+        <div class="group-input col-lg-3">
+          <label> Status </label>
+          <ng-select
+            [items]="status"
+            bindLabel="description"
+            bindValue="value"
+            [clearable]="false"
+            [searchable]="false"
+            formControlName="status"
+          >
+          </ng-select>
+        </div>
+        <div class="group-input col-lg-3">
+          <label> Observações </label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="observations"
+          />
+        </div>
+        <div class="procedure-button col-lg-2" (click)="openProcedure()">
+          <a class="button-content"> Procedimento(s) </a>
+        </div>
+        <div class="group-input procedure disabled">
+          {{ proceduresCount }}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-4 row align-button" [class.disabled]="formValue.invalid">
+    <div class="add-button" (click)="isEdit ? updateCustomer() : addCustomer()">
+      <a class="button-content">
+        {{ isEdit ? "Salvar alterações" : "Adicionar" }}
+      </a>
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

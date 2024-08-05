@@ -52,6 +52,7 @@ body {
   cursor: pointer;
   border: 0;
   padding: 1rem 1.5rem;
+  outline: none !important;
 }
 
 .toggle-btn i {
@@ -98,6 +99,7 @@ a.sidebar-link {
 a.sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.075);
   border-left: 3px solid #3b7ddd;
+  color: #fff;
 }
 
 .sidebar-item {
