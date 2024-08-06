@@ -9,24 +9,14 @@
       </div>
     </div>
     <ul class="sidebar-nav">
-      <!-- <li class="sidebar-item" (click)="goToDashboard()">
-        <a class="sidebar-link">
-          <i class="material-symbols-outlined"> bar_chart </i>
-          <span>Dashboard</span>
-        </a>
-      </li> -->
-      <li class="sidebar-item" (click)="goToCustomers()">
-        <a class="sidebar-link">
-          <i class="material-symbols-outlined"> group </i>
-          <span>Clientes</span>
-        </a>
-      </li>
-      <li class="sidebar-item" (click)="goToSchedules()">
-        <a class="sidebar-link">
-          <i class="material-symbols-outlined"> edit_calendar </i>
-          <span>Agendamentos</span>
-        </a>
-      </li>
+      <div *ngFor="let route of routes">
+        <li class="sidebar-item" (click)="goTo(route.description)">
+          <a class="sidebar-link">
+            <i class="material-symbols-outlined"> {{ route.icon }} </i>
+            <span>{{ route.name }}</span>
+          </a>
+        </li>
+      </div>
     </ul>
     <div class="sidebar-footer" (click)="logout()">
       <a class="sidebar-link">

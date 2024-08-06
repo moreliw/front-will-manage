@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/pages/auth/auth.service';
+import { MenuService } from '../../service/menu.service';
+import { Menu } from '../../models/menu';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,9 +10,17 @@ import { AuthService } from 'src/app/pages/auth/auth.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  constructor(private router: Router, private auth: AuthService) {}
+  routes: Menu[] = [];
 
-  ngOnInit(): void {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private menuService: MenuService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadUserPermissions();
+  }
 
   toggle() {
     document.querySelector('#sidebar').classList.toggle('expand');
@@ -26,6 +36,21 @@ export class SidebarComponent implements OnInit {
 
   goToDashboard() {
     this.router.navigate(['/dashboard']);
+  }
+
+  goTo(route: string) {
+    this.router.navigate([route]);
+  }
+
+  loadUserPermissions(): void {
+    this.menuService.getAllPermissions().subscribe(
+      (permissions) => {
+        this.routes = permissions;
+      },
+      (error) => {
+        console.error('Erro ao carregar permissões', error);
+      }
+    );
   }
 
   logout() {
