@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit {
     this.router.navigate(['./edit/' + id], { relativeTo: this.route });
   }
 
-  deleteCategory(id: string) {
+  deleteProduct(id: string) {
     Swal.fire({
       title: 'Tem certeza que deseja excluir esse produto?',
       text: 'Você não poderá reverter isso!',
