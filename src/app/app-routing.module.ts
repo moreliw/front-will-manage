@@ -7,6 +7,10 @@ import { CustomerComponent } from './pages/customer/customer.component';
 import { CustomerFormComponent } from './pages/customer/customer-form/customer-form.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ScheduleFormComponent } from './pages/schedule/schedule-form/schedule-form.component';
+import { CategoryComponent } from './pages/category/category.component';
+import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
+import { ProductComponent } from './pages/product/product.component';
+import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 
 const routes: Routes = [
   {
@@ -48,6 +52,30 @@ const routes: Routes = [
   {
     path: 'schedule/edit/:id',
     component: ScheduleFormComponent,
+    canActivate: [AuthGuard],
+  },
+
+  { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
+  {
+    path: 'category/new',
+    component: CategoryFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'category/edit/:id',
+    component: CategoryFormComponent,
+    canActivate: [AuthGuard],
+  },
+
+  { path: 'product', component: ProductComponent, canActivate: [AuthGuard] },
+  {
+    path: 'product/new',
+    component: ProductFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'product/edit/:id',
+    component: ProductFormComponent,
     canActivate: [AuthGuard],
   },
 ];

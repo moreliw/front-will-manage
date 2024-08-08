@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="up d-flex">
+    <h2 class="title">Produtos</h2>
+    <a class="button-content" (click)="addProduct()">
+      <i class="material-symbols-outlined icon">add_circle</i>Produto
+    </a>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th class="text-center">Preço custo</th>
+        <th class="text-center">Preço venda</th>
+        <th class="text-center">Quantidade</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of productList">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td class="text-center">{{ util.toMoney(product.costPrice) }}</td>
+        <td class="text-center">{{ util.toMoney(product.salePrice) }}</td>
+        <td class="text-center">{{ product.quantity }}</td>
+
+        <td style="text-align: right">
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openEditProduct(product.id)"
+          >
+            edit_square</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="deleteProduct(product.id)"
+          >
+            delete</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loading *ngIf="loading"></app-loading>

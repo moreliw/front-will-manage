@@ -22,6 +22,10 @@ import { ScheduleFormComponent } from './pages/schedule/schedule-form/schedule-f
 import { AuthInterceptor } from './pages/auth/auth-interceptor.service';
 import { ProcedureComponent } from './components/procedure/procedure.component';
 import { CheckComponent } from './components/check/check.component';
+import { CategoryComponent } from './pages/category/category.component';
+import { ProductComponent } from './pages/product/product.component';
+import { ProductFormComponent } from './pages/product/product-form/product-form.component';
+import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,10 @@ import { CheckComponent } from './components/check/check.component';
     ScheduleFormComponent,
     ProcedureComponent,
     CheckComponent,
+    CategoryComponent,
+    ProductComponent,
+    ProductFormComponent,
+    CategoryFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,18 +26,6 @@ export class SidebarComponent implements OnInit {
     document.querySelector('#sidebar').classList.toggle('expand');
   }
 
-  goToCustomers() {
-    this.router.navigate(['/customers']);
-  }
-
-  goToSchedules() {
-    this.router.navigate(['/schedule']);
-  }
-
-  goToDashboard() {
-    this.router.navigate(['/dashboard']);
-  }
-
   goTo(route: string) {
     this.router.navigate([route]);
   }

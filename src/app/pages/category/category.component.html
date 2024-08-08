@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="up d-flex">
+    <h2 class="title">Categorias</h2>
+    <a class="button-content" (click)="addCategory()">
+      <i class="material-symbols-outlined icon">add_circle</i>Categoria
+    </a>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Data Criação</th>
+        <th>Data Atualização</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categoryList">
+        <td>{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+        <td>{{ util.formatDateTime(category.createdAt) }}</td>
+        <td>
+          {{
+            category.updatedAt ? util.formatDateTime(category.updatedAt) : ""
+          }}
+        </td>
+
+        <td style="text-align: right">
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openEditCategory(category.id)"
+          >
+            edit_square</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="deleteCategory(category.id)"
+          >
+            delete</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loading *ngIf="loading"></app-loading>

@@ -1,0 +1,53 @@
+<div class="general">
+  <div class="row">
+    <a class="material-symbols-outlined icon-back" (click)="goBack()"
+      >arrow_back</a
+    >
+    <div class="col-sm-6">
+      <h1 class="titulo-pagina">
+        {{ isEdit ? "Editar" : "Adicionar" }} {{ title }}
+      </h1>
+    </div>
+  </div>
+  <div class="mt-4 mb-4">
+    <form
+      [formGroup]="formValue"
+      class="form-validate form-horizontal"
+      novalidate=""
+    >
+      <div class="form-group row col-lg-12">
+        <div class="group-input col-lg-3">
+          <label> Nome </label>
+          <input class="form-control" type="text" formControlName="name" />
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['name'].hasError('required') &&
+              (formValue.controls['name'].dirty ||
+                formValue.controls['name'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-4">
+          <label> Descrição </label>
+          <input
+            class="form-control"
+            type="text"
+            formControlName="description"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row align-button col-lg-6" [class.disabled]="formValue.invalid">
+    <div class="add-button" (click)="isEdit ? updateCategory() : addCategory()">
+      <a class="button-content">
+        {{ isEdit ? "Salvar alterações" : "Adicionar" }}
+      </a>
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>
