@@ -26,6 +26,11 @@ import { CategoryComponent } from './pages/category/category.component';
 import { ProductComponent } from './pages/product/product.component';
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
+import { InventoryFormComponent } from './pages/inventory/inventory-form/inventory-form.component';
+import { SearchComponent } from './components/search/search.component';
+import { InventoryControlComponent } from './components/inventory-control/inventory-control.component';
+import { InventoryListControlComponent } from './components/inventory-list-control/inventory-list-control.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,11 @@ import { CategoryFormComponent } from './pages/category/category-form/category-f
     ProductComponent,
     ProductFormComponent,
     CategoryFormComponent,
+    InventoryComponent,
+    InventoryFormComponent,
+    SearchComponent,
+    InventoryControlComponent,
+    InventoryListControlComponent,
   ],
   imports: [
     BrowserModule,

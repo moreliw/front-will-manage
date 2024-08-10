@@ -11,6 +11,7 @@ import { CategoryComponent } from './pages/category/category.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 import { ProductComponent } from './pages/product/product.component';
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
 
 const routes: Routes = [
   {
@@ -76,6 +77,11 @@ const routes: Routes = [
   {
     path: 'product/edit/:id',
     component: ProductFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'inventory',
+    component: InventoryComponent,
     canActivate: [AuthGuard],
   },
 ];

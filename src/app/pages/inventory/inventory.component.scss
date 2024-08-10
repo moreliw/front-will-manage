@@ -1,0 +1,147 @@
+.container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: none;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #0e2238;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #0e2238;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #0e2238;
+}
+
+tr {
+  font-size: medium;
+}
+
+.up {
+  justify-content: space-between;
+}
+
+.button-content {
+  height: 3rem;
+  background: #fff;
+  border-radius: 1rem;
+  border: #0b2741 1px solid;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  width: 10rem;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.button-content:hover {
+  background-color: #0e223834;
+}
+
+.icon {
+  font-size: large;
+  margin-right: 0.3rem;
+}
+
+.material-symbols-outlined {
+  cursor: pointer;
+}
+
+.align-balance {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  font: 500 2rem / 32px Roboto, Helvetica Neue, sans-serif;
+}
+
+.styled-table th:first-child,
+.styled-table td:first-child {
+  width: 70%;
+}
+
+.up-cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px #0000001a;
+  border-radius: 8px;
+  width: 18rem;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+}
+
+.card-icon {
+  flex-shrink: 0;
+  margin-right: 2rem;
+  font-size: 48px;
+  color: #4a4a4a;
+}
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333333;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  color: #777777;
+}
+
+.icon-card {
+  font-size: 2rem;
+}
+
+.tools-bar {
+  display: flex;
+  margin-top: 2rem;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.app-search {
+  flex: 1;
+}

@@ -1,0 +1,53 @@
+button.close {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button.close:focus {
+  outline: none;
+}
+
+.form-control {
+  width: 50%;
+}
+
+.content {
+  justify-content: start;
+  display: flex;
+}
+
+.balance-content {
+  display: grid;
+}
+
+.balance-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.balance-value {
+  font-size: 1.5rem;
+  font-weight: 100;
+}
+
+.up-content {
+  margin-bottom: 3rem;
+}
+
+.buttons {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon {
+  font-size: 1rem;
+}
+
+.product {
+  padding: 0.1rem;
+  margin-bottom: 2rem;
+}

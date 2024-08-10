@@ -1,0 +1,48 @@
+<div class="general">
+  <div class="up-content">
+    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title>{{ transactionType === 1 ? "Entrada" : "Saída" }}</h1>
+  </div>
+
+  <div *ngFor="let item of items; let i = index" class="content mb-4 col-lg-12">
+    <div class="col-lg-7">
+      <label *ngIf="i === 0" class="mr-1">Item {{ i + 1 }}</label>
+      <ng-select
+        [items]="productList"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="item.productId"
+        (change)="onProductSelect(i)"
+        [clearable]="false"
+      ></ng-select>
+      <span *ngIf="errors[i]" class="text-danger">{{ errors[i] }}</span>
+    </div>
+    <div class="balance-content ml-3 col-lg-4">
+      <label *ngIf="i === 0" class="mr-1">Quantidade</label>
+      <input
+        type="number"
+        class="form-control quantity-input"
+        [(ngModel)]="item.quantity"
+      />
+    </div>
+    <div class="remove-item mt-3 col-lg-1" (click)="removeItem(i)">
+      <a class="material-symbols-outlined">cancel</a>
+    </div>
+  </div>
+
+  <div class="col-lg-12 add-item">
+    <div class="add-button col-lg-3" (click)="addItem()">
+      <a class="material-symbols-outlined add-icon">add_circle</a>Adicionar
+    </div>
+  </div>
+
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+    <div class="add-button" (click)="submit()" [class.disabled]="hasErrors">
+      Salvar
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

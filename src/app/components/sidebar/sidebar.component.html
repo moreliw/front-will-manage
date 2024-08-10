@@ -1,7 +1,7 @@
 <div class="wrapper">
-  <aside id="sidebar">
+  <aside id="sidebar" (click)="toggle()">
     <div class="d-flex">
-      <button class="toggle-btn" type="button" (click)="toggle()">
+      <button class="toggle-btn" type="button">
         <i class="material-symbols-outlined"> dashboard</i>
       </button>
       <div class="sidebar-logo">
@@ -10,7 +10,7 @@
     </div>
     <ul class="sidebar-nav">
       <div *ngFor="let route of routes">
-        <li class="sidebar-item" (click)="goTo(route.description)">
+        <li class="sidebar-item" (click)="goTo(route.description, $event)">
           <a class="sidebar-link">
             <i class="material-symbols-outlined"> {{ route.icon }} </i>
             <span>{{ route.name }}</span>

@@ -1,0 +1,42 @@
+<div>
+  <div class="up-content">
+    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title>{{ transactionType === 1 ? "Entrada" : "Saída" }}</h1>
+  </div>
+
+  <div mat-dialog-content>
+    <div class="product">
+      <label class="balance-label">Item:</label>
+      <span class="balance-value ml-3">{{ nameProduct }}</span>
+    </div>
+    <div class="content">
+      <div>
+        <label class="mr-1">{{
+          transactionType === 1 ? "Adicionar" : "Retirar"
+        }}</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="quantityToSend"
+        />
+      </div>
+      <div class="balance-content">
+        <label class="mr-1">Em estoque</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="quantity"
+          readonly
+        />
+      </div>
+    </div>
+  </div>
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+
+    <div class="add-button" (click)="addInventory()">Salvar</div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

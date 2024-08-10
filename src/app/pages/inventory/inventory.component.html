@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="up d-flex mb-4">
+    <h2 class="title">Inventário</h2>
+  </div>
+
+  <div class="up-cards">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-icon">
+          <i class="material-symbols-outlined icon-card">inventory_2</i>
+        </div>
+        <div class="card-text">
+          <h3 class="title">Itens</h3>
+          <p class="subtitle">{{ inventorySummary?.totalProduct }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <div class="card-icon">
+          <i class="material-symbols-outlined icon-card">category</i>
+        </div>
+        <div class="card-text">
+          <h3 class="title">Total itens</h3>
+          <p class="subtitle">{{ inventorySummary?.totalQuantity }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <div class="card-icon">
+          <i class="material-symbols-outlined icon-card">input_circle</i>
+        </div>
+        <div class="card-text">
+          <h3 class="title">Entradas</h3>
+          <p class="subtitle">{{ inventorySummary?.totalIn }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <div class="card-icon">
+          <i class="material-symbols-outlined icon-card">output_circle</i>
+        </div>
+        <div class="card-text">
+          <h3 class="title">Saídas</h3>
+          <p class="subtitle">{{ inventorySummary?.totalOut }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tools-bar">
+    <app-search (search)="onSearch($event)" class="app-search"></app-search>
+    <div class="add-button" (click)="openMultiStockControl(1)">Entrada</div>
+    <div class="add-button ml-3" (click)="openMultiStockControl(2)">Saída</div>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th class="text-left">Item</th>
+        <th class="text-center">Quantidade</th>
+        <th class="text-center">Valor</th>
+
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inventory of inventoryList">
+        <td class="text-left">{{ inventory.name }}</td>
+        <td class="text-center">{{ inventory.quantity }}</td>
+        <td class="text-center">{{ util.toMoney(inventory.costPrice) }}</td>
+
+        <td style="text-align: right">
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openSingleStockControl(inventory.id, 1)"
+          >
+            input_circle</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="openSingleStockControl(inventory.id, 2)"
+          >
+            output_circle</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loading *ngIf="loading"></app-loading>

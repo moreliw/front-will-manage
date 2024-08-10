@@ -26,7 +26,8 @@ export class SidebarComponent implements OnInit {
     document.querySelector('#sidebar').classList.toggle('expand');
   }
 
-  goTo(route: string) {
+  goTo(route: string, event: Event) {
+    event.stopPropagation();
     this.router.navigate([route]);
   }
 
