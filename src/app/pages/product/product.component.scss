@@ -83,3 +83,38 @@ tr {
 .title {
   font: 500 2rem / 32px Roboto, Helvetica Neue, sans-serif;
 }
+
+@media (max-width: 480px) {
+  .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+    overflow-x: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .align-balance {
+    justify-content: flex-start;
+  }
+
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .button-content {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 6px 8px;
+  }
+}
