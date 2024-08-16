@@ -1,0 +1,31 @@
+.pagination {
+  float: right;
+  margin-top: 2rem;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #0e2238;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.pages {
+  opacity: 50%;
+  cursor: default;
+}
+
+a {
+  cursor: pointer;
+}

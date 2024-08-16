@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InventoryFormComponent } from './inventory-form.component';
+import { InventoryFormComponent } from './inventory-history.component';
 
 describe('InventoryFormComponent', () => {
   let component: InventoryFormComponent;
@@ -8,9 +8,8 @@ describe('InventoryFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InventoryFormComponent ]
-    })
-    .compileComponents();
+      declarations: [InventoryFormComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

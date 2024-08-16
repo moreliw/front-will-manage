@@ -54,9 +54,15 @@
   </div>
 
   <div class="tools-bar">
-    <app-search (search)="onSearch($event)" class="app-search"></app-search>
-    <div class="add-button" (click)="openMultiStockControl(1)">Entrada</div>
-    <div class="add-button ml-3" (click)="openMultiStockControl(2)">Saída</div>
+    <div class="mb-3">
+      <app-search (search)="onSearch($event)" class="app-search"></app-search>
+    </div>
+    <div class="d-flex">
+      <div class="add-button" (click)="openMultiStockControl(1)">Entrada</div>
+      <div class="add-button ml-3" (click)="openMultiStockControl(2)">
+        Saída
+      </div>
+    </div>
   </div>
 
   <table class="styled-table">

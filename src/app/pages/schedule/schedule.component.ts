@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Schedule } from '../../models/schedule';
+import { ScheduleGrid } from '../../models/schedule';
 import { ScheduleService } from '../../service/schedule.service';
-import { EScheduleStatusLabel } from '../../models/Enum/EScheduleStatus';
+import {
+  EScheduleStatus,
+  EScheduleStatusLabel,
+} from '../../models/Enum/EScheduleStatus';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomersService } from 'src/app/service/customers.service';
-import { Customer } from 'src/app/models/customer';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateStatusScheduleComponent } from 'src/app/components/update-status-schedule/update-status-schedule.component';
 
 @Component({
   selector: 'app-schedule',
@@ -13,27 +16,55 @@ import Swal from 'sweetalert2';
   styleUrls: ['./schedule.component.scss'],
 })
 export class ScheduleComponent implements OnInit {
-  scheduleList: Schedule[] = [];
+  scheduleGrid: ScheduleGrid;
   loading = false;
-
+  selectedFilter = 1;
   EScheduleStatusLabel = EScheduleStatusLabel;
+  page = {
+    limit: 10,
+    count: 0,
+    offset: 0,
+    descricao: '',
+    ativo: true,
+  };
+  currentPage = 1;
 
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.loadSelectedFilter();
     this.loadSchedule();
+  }
+
+  applyFilter(filter: number) {
+    this.selectedFilter = filter;
+    this.loadSchedule();
+    localStorage.setItem('selectedFilter', filter.toString());
+  }
+
+  loadSelectedFilter() {
+    const savedFilter = localStorage.getItem('selectedFilter');
+    if (savedFilter) {
+      this.selectedFilter = +savedFilter;
+    } else {
+      this.selectedFilter = 1;
+    }
   }
 
   loadSchedule() {
     this.loading = true;
-    this.scheduleService.getScheduleList().subscribe((result) => {
-      this.scheduleList = result;
-      this.loading = false;
-    });
+    this.scheduleService
+      .getScheduleList(this.selectedFilter, this.page, '')
+      .subscribe((result) => {
+        this.scheduleGrid = result;
+        this.page.count = result.totalCount;
+        this.loading = false;
+      });
   }
 
   formatDate(datetime: string): string {
@@ -61,6 +92,30 @@ export class ScheduleComponent implements OnInit {
 
   openEditSchedule(id: string) {
     this.router.navigate(['./edit/' + id], { relativeTo: this.route });
+  }
+
+  openUpdateStatus(
+    status: EScheduleStatus,
+    scheduleId: string,
+    name: string,
+    scheduleDate: string
+  ) {
+    const data = {
+      id: scheduleId,
+      status: status,
+      name: name,
+      scheduleDate: scheduleDate,
+    };
+    const dialogRef = this.dialog.open(UpdateStatusScheduleComponent, {
+      width: '500px',
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadSchedule();
+      }
+    });
   }
 
   deleteSchedule(id: string) {
@@ -99,5 +154,20 @@ export class ScheduleComponent implements OnInit {
         );
       }
     });
+  }
+
+  selecionarNumeroRegistros(value) {
+    this.page.limit = parseInt(value, 10);
+    this.loadSchedule();
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.page.count / this.page.limit);
+  }
+
+  pageCallback(page: number) {
+    this.currentPage = page;
+    this.page.offset = page - 1;
+    this.loadSchedule();
   }
 }

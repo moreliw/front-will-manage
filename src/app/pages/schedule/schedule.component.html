@@ -6,24 +6,79 @@
     </a>
   </div>
 
+  <div class="dashboard-container">
+    <div
+      class="dashboard-item"
+      [class.dashboard-item-select]="selectedFilter === 1"
+      (click)="applyFilter(1)"
+    >
+      <div class="dashboard-card">
+        <a class="material-symbols-outlined font-icon-cards">today</a>
+        <h3 class="titles">Hoje</h3>
+        <p class="numbers">{{ scheduleGrid?.totalSchedulesDay }}</p>
+      </div>
+    </div>
+
+    <div
+      class="dashboard-item"
+      [class.dashboard-item-select]="selectedFilter === 2"
+      (click)="applyFilter(2)"
+    >
+      <div class="dashboard-card">
+        <a class="material-symbols-outlined font-icon-cards">date_range</a>
+        <h3 class="titles">Esta semana</h3>
+        <p class="numbers">{{ scheduleGrid?.totalSchedulesWeek }}</p>
+      </div>
+    </div>
+
+    <div
+      class="dashboard-item"
+      [class.dashboard-item-select]="selectedFilter === 3"
+      (click)="applyFilter(3)"
+    >
+      <div class="dashboard-card">
+        <a class="material-symbols-outlined font-icon-cards">calendar_month</a>
+        <h3 class="titles">Este mês</h3>
+        <p class="numbers">{{ scheduleGrid?.totalSchedulesMonth }}</p>
+      </div>
+    </div>
+  </div>
+
   <table class="styled-table">
     <thead>
       <tr>
-        <th class="text-left">Data agendamento</th>
-        <th class="text-left">Hora agendamento</th>
         <th>Cliente</th>
-        <th>Status</th>
-        <th>Observações</th>
+        <th class="text-center">Data agendamento</th>
+        <th class="text-center">Hora agendamento</th>
+        <th class="text-center">Status</th>
         <th class="text-right"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let schedule of scheduleList">
-        <td class="text-left">{{ formatDate(schedule.scheduleDate) }}</td>
-        <td class="text-left">{{ formatTime(schedule.scheduleDate) }}</td>
+      <tr *ngFor="let schedule of scheduleGrid?.scheduleList">
         <td>{{ schedule.customer.name }}</td>
-        <td>{{ EScheduleStatusLabel[schedule.status] }}</td>
-        <td>{{ schedule.observations }}</td>
+        <td class="text-center">{{ formatDate(schedule.scheduleDate) }}</td>
+        <td class="text-center">{{ formatTime(schedule.scheduleDate) }}</td>
+        <td
+          class="text-center"
+          (click)="
+            openUpdateStatus(
+              schedule.status,
+              schedule.id,
+              schedule.customer.name,
+              schedule.scheduleDate
+            )
+          "
+        >
+          <div
+            [class.status-scheduled]="schedule.status === 1"
+            [class.status-completed]="schedule.status === 3"
+            [class.status-canceled]="schedule.status === 2"
+            class="status"
+          >
+            {{ EScheduleStatusLabel[schedule.status] }}
+          </div>
+        </td>
         <td style="text-align: right">
           <a
             class="material-symbols-outlined mr-2"
@@ -41,5 +96,10 @@
       </tr>
     </tbody>
   </table>
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalPages]="getTotalPages()"
+    (pageChange)="pageCallback($event)"
+  ></app-pagination>
 </div>
 <app-loading *ngIf="loading"></app-loading>

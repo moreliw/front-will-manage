@@ -12,6 +12,7 @@ import { CategoryFormComponent } from './pages/category/category-form/category-f
 import { ProductComponent } from './pages/product/product.component';
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
+import { InventoryHistoryComponent } from './pages/inventory/inventory-history/inventory-history.component';
 
 const routes: Routes = [
   {
@@ -82,6 +83,12 @@ const routes: Routes = [
   {
     path: 'inventory',
     component: InventoryComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'inventory-history',
+    component: InventoryHistoryComponent,
     canActivate: [AuthGuard],
   },
 ];

@@ -1,0 +1,29 @@
+<div class="pagination">
+  <!-- Previous Button -->
+  <a
+    (click)="previousPage()"
+    [class.pages]="limitPrevious"
+    [attr.disabled]="limitPrevious ? true : null"
+    >&laquo;</a
+  >
+
+  <!-- Page Numbers -->
+  <ng-container *ngFor="let page of visiblePageRange">
+    <ng-container *ngIf="page === '...'; else pageLink">
+      <a class="ellipsis">...</a>
+    </ng-container>
+    <ng-template #pageLink>
+      <a [class.active]="currentPage === page" (click)="goToPage(page)">{{
+        page
+      }}</a>
+    </ng-template>
+  </ng-container>
+
+  <!-- Next Button -->
+  <a
+    (click)="nextPage()"
+    [class.pages]="limitNext"
+    [attr.disabled]="limitNext ? true : null"
+    >&raquo;</a
+  >
+</div>

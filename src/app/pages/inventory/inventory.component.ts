@@ -93,4 +93,8 @@ export class InventoryComponent implements OnInit {
       }
     });
   }
+
+  inventoryHistory() {
+    this.router.navigate(['/inventory-history']);
+  }
 }

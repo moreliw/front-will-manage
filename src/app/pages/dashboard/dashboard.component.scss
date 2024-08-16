@@ -1,0 +1,106 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.dashboard-item {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dashboard-item-select {
+  background-color: #0e2238;
+}
+
+.dashboard-card {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.up {
+  justify-content: space-between;
+}
+
+.numbers {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.titles {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.material-symbols-outlined {
+  font-size: xx-large;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #0e2238;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #0e2238;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #0e2238;
+}
+
+tr {
+  font-size: medium;
+}
+
+.icon-table {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+}

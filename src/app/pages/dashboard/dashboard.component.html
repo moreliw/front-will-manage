@@ -1,1 +1,77 @@
-<div>Dashboard</div>
+<div class="up d-flex mb-4">
+  <h2 class="title">Dashboard</h2>
+</div>
+
+<div class="dashboard-container">
+  <div
+    class="dashboard-item"
+    [class.dashboard-item-select]="selectedFilter === 1"
+    (click)="applyFilter(1)"
+  >
+    <div class="dashboard-card">
+      <a class="material-symbols-outlined">today</a>
+      <h3 class="titles">Hoje</h3>
+      <p class="numbers">12</p>
+    </div>
+  </div>
+
+  <div
+    class="dashboard-item"
+    [class.dashboard-item-select]="selectedFilter === 2"
+    (click)="applyFilter(2)"
+  >
+    <div class="dashboard-card">
+      <a class="material-symbols-outlined">date_range</a>
+      <h3 class="titles">Esta semana</h3>
+      <p class="numbers">10</p>
+    </div>
+  </div>
+
+  <div
+    class="dashboard-item"
+    [class.dashboard-item-select]="selectedFilter === 3"
+    (click)="applyFilter(3)"
+  >
+    <div class="dashboard-card">
+      <a class="material-symbols-outlined">calendar_month</a>
+      <h3 class="titles">Este mês</h3>
+      <p class="numbers">10</p>
+    </div>
+  </div>
+</div>
+
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th class="text-left">Cliente</th>
+      <th class="text-center">Data agendamento</th>
+      <th class="text-center">Hora agendamento</th>
+      <th>Status</th>
+      <th class="text-right"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let schedule of scheduleList">
+      <td class="text-left">{{ schedule.customer.name }}</td>
+      <td class="text-center">{{ formatDate(schedule.scheduleDate) }}</td>
+      <td class="text-center">{{ formatTime(schedule.scheduleDate) }}</td>
+      <td>{{ EScheduleStatusLabel[schedule.status] }}</td>
+      <td style="text-align: right">
+        <a
+          *ngIf="schedule.status === 1"
+          class="material-symbols-outlined mr-2 icon-table"
+          (click)="openSingleStockControl(inventory.id, 1)"
+        >
+          event_available</a
+        >
+        <a
+          *ngIf="schedule.status === 1"
+          class="material-symbols-outlined icon-table"
+          (click)="openSingleStockControl(inventory.id, 2)"
+        >
+          event_busy</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>

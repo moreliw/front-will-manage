@@ -27,10 +27,13 @@ import { ProductComponent } from './pages/product/product.component';
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
-import { InventoryFormComponent } from './pages/inventory/inventory-form/inventory-form.component';
+import { InventoryHistoryComponent } from './pages/inventory/inventory-history/inventory-history.component';
 import { SearchComponent } from './components/search/search.component';
 import { InventoryControlComponent } from './components/inventory-control/inventory-control.component';
 import { InventoryListControlComponent } from './components/inventory-list-control/inventory-list-control.component';
+import { UpdateStatusScheduleComponent } from './components/update-status-schedule/update-status-schedule.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -51,10 +54,12 @@ import { InventoryListControlComponent } from './components/inventory-list-contr
     ProductFormComponent,
     CategoryFormComponent,
     InventoryComponent,
-    InventoryFormComponent,
+    InventoryHistoryComponent,
     SearchComponent,
     InventoryControlComponent,
     InventoryListControlComponent,
+    UpdateStatusScheduleComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +72,7 @@ import { InventoryListControlComponent } from './components/inventory-list-contr
     BrowserAnimationsModule,
     MatDialogModule,
     NgSelectModule,
+    MatPaginatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

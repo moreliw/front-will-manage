@@ -7,7 +7,6 @@ import { Customer } from 'src/app/models/customer';
 import { Schedule } from 'src/app/models/schedule';
 import { CustomersService } from 'src/app/service/customers.service';
 import { ScheduleService } from 'src/app/service/schedule.service';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-schedule-form',
@@ -113,6 +112,7 @@ export class ScheduleFormComponent implements OnInit {
   }
 
   addCustomer() {
+    this.loading = true;
     const formValue = this.formValue.value;
     const scheduleDateTime = this.combineDateAndTime(
       formValue.scheduleDate,
@@ -126,9 +126,12 @@ export class ScheduleFormComponent implements OnInit {
 
     this.scheduleService.addSchedule(payload).subscribe(
       () => {
+        this.loading = false;
         this.goBack();
       },
-      () => {}
+      () => {
+        this.loading = false;
+      }
     );
   }
 

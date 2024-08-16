@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Schedule } from '../models/schedule';
 import { Procedure } from '../models/procedure';
+import { EScheduleStatus } from '../models/Enum/EScheduleStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,28 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) {}
 
-  getScheduleList(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/schedule`);
+  getScheduleList(
+    typeFilterDate: number,
+    param: any,
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams();
+    if (typeFilterDate !== undefined) {
+      params = params.set('typeFilterDate', `${typeFilterDate}`);
+    }
+
+    if (param) {
+      params = params
+        .set('page', `${param.offset + 1}`)
+        .set('pageSize', `${param.limit}`);
+    }
+
+    if (search !== undefined) {
+      params = params.set('search', `${search}`);
+    }
+    return this.http.get<any>(`${this.apiUrl}/schedule`, {
+      params,
+    });
   }
 
   getScheduleById(id: string): Observable<Schedule> {
@@ -50,6 +71,13 @@ export class ScheduleService {
     return this.http.put<void>(
       `${this.apiUrl}/schedule/procedure/${scheduleId}`,
       procedures
+    );
+  }
+
+  updateStatus(scheduleId: string, status: EScheduleStatus): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/schedule/status/${scheduleId}`,
+      status
     );
   }
 
