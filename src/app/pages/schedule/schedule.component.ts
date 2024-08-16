@@ -28,7 +28,8 @@ export class ScheduleComponent implements OnInit {
     ativo: true,
   };
   currentPage = 1;
-
+  search: string = '';
+  selectedDate: string;
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
@@ -45,6 +46,11 @@ export class ScheduleComponent implements OnInit {
     this.selectedFilter = filter;
     this.loadSchedule();
     localStorage.setItem('selectedFilter', filter.toString());
+
+    if (filter === 0) {
+      this.selectedDate = null;
+      this.search = '';
+    }
   }
 
   loadSelectedFilter() {
@@ -56,10 +62,19 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  changeSelectedDate() {
+    this.loadSchedule();
+  }
+
   loadSchedule() {
     this.loading = true;
     this.scheduleService
-      .getScheduleList(this.selectedFilter, this.page, '')
+      .getScheduleList(
+        this.selectedFilter,
+        this.page,
+        this.search,
+        this.selectedDate
+      )
       .subscribe((result) => {
         this.scheduleGrid = result;
         this.page.count = result.totalCount;
@@ -168,6 +183,11 @@ export class ScheduleComponent implements OnInit {
   pageCallback(page: number) {
     this.currentPage = page;
     this.page.offset = page - 1;
+    this.loadSchedule();
+  }
+
+  onSearch(searchTerm: string = ''): void {
+    this.search = searchTerm;
     this.loadSchedule();
   }
 }

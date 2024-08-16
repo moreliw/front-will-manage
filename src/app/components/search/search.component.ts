@@ -16,9 +16,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchSubject
-      .pipe(debounceTime(300), distinctUntilChanged())
+      .pipe(debounceTime(600), distinctUntilChanged())
       .subscribe((searchTerm) => {
-        // this.searchBackend(searchTerm);
         this.search.emit(searchTerm);
       });
   }
@@ -26,8 +25,4 @@ export class SearchComponent implements OnInit {
   onSearch(): void {
     this.searchSubject.next(this.searchTerm);
   }
-
-  // searchBackend(searchTerm: string): void {
-  //   console.log(searchTerm);
-  // }
 }

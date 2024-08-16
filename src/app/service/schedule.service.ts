@@ -23,7 +23,8 @@ export class ScheduleService {
   getScheduleList(
     typeFilterDate: number,
     param: any,
-    search?: string
+    search?: string,
+    date?: string
   ): Observable<any> {
     let params = new HttpParams();
     if (typeFilterDate !== undefined) {
@@ -38,6 +39,10 @@ export class ScheduleService {
 
     if (search !== undefined) {
       params = params.set('search', `${search}`);
+    }
+
+    if (date !== undefined) {
+      params = params.set('date', `${date}`);
     }
     return this.http.get<any>(`${this.apiUrl}/schedule`, {
       params,

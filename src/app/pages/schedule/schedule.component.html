@@ -42,6 +42,24 @@
         <p class="numbers">{{ scheduleGrid?.totalSchedulesMonth }}</p>
       </div>
     </div>
+
+    <div class="d-flex dashboard-item items-down">
+      <app-search (search)="onSearch($event)"></app-search>
+    </div>
+    <div class="d-flex dashboard-item items-down">
+      <input
+        class="formControl ml-4 input-date"
+        type="date"
+        [(ngModel)]="selectedDate"
+        (change)="changeSelectedDate()"
+      />
+    </div>
+    <div
+      class="d-flex dashboard-item items-down"
+      [class.disabled]="selectedFilter === 0 && search === '' && !selectedDate"
+    >
+      <a class="clean-filters" (click)="applyFilter(0)"> Limpar filtros </a>
+    </div>
   </div>
 
   <table class="styled-table">
