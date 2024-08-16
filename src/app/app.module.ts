@@ -34,6 +34,7 @@ import { InventoryListControlComponent } from './components/inventory-list-contr
 import { UpdateStatusScheduleComponent } from './components/update-status-schedule/update-status-schedule.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { AddCustomerComponent } from './components/add-customer/add-customer.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     InventoryListControlComponent,
     UpdateStatusScheduleComponent,
     PaginationComponent,
+    AddCustomerComponent,
   ],
   imports: [
     BrowserModule,

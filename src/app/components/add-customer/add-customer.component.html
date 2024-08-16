@@ -1,0 +1,51 @@
+<div>
+  <div class="up-content">
+    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title>Adicionar cliente</h1>
+  </div>
+
+  <form
+    [formGroup]="formValue"
+    class="form-validate form-horizontal"
+    novalidate=""
+  >
+    <div>
+      <div class="mb-3 w-100">
+        <label> Nome </label>
+        <input class="form-control" type="text" formControlName="name" />
+        <span
+          class="text-danger"
+          *ngIf="
+            formValue.controls['name'].hasError('required') &&
+            (formValue.controls['name'].dirty ||
+              formValue.controls['name'].touched)
+          "
+        >
+          Este campo é obrigatório
+        </span>
+      </div>
+      <div class="mb-3 w-100">
+        <label> Telefone </label>
+        <input class="form-control" type="text" formControlName="phone" />
+      </div>
+      <div class="w-100">
+        <label> Email </label>
+        <input class="form-control" type="text" formControlName="email" />
+      </div>
+    </div>
+  </form>
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+
+    <div
+      class="add-button"
+      [class.disabled]="formValue.invalid"
+      (click)="submit()"
+    >
+      Salvar
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

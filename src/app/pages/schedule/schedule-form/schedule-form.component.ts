@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AddCustomerComponent } from 'src/app/components/add-customer/add-customer.component';
 import { ProcedureComponent } from 'src/app/components/procedure/procedure.component';
 import { Customer } from 'src/app/models/customer';
 import { Schedule } from 'src/app/models/schedule';
@@ -111,7 +112,7 @@ export class ScheduleFormComponent implements OnInit {
     return localDateString;
   }
 
-  addCustomer() {
+  addSchedule() {
     this.loading = true;
     const formValue = this.formValue.value;
     const scheduleDateTime = this.combineDateAndTime(
@@ -135,7 +136,7 @@ export class ScheduleFormComponent implements OnInit {
     );
   }
 
-  updateCustomer() {
+  updateSchedule() {
     const formValue = this.formValue.value;
     const scheduleDateTime = this.combineDateAndTime(
       formValue.scheduleDate,
@@ -160,6 +161,16 @@ export class ScheduleFormComponent implements OnInit {
     this.customersService.getCustomers().subscribe((result) => {
       this.customerList = result;
       this.loading = false;
+    });
+  }
+
+  addCustomer() {
+    const dialogRef = this.dialog.open(AddCustomerComponent, {});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadCustomers();
+      }
     });
   }
 
