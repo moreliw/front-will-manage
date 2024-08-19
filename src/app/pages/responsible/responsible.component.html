@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="up d-flex">
+    <h2 class="title">Responsáveis</h2>
+    <a class="button-content" (click)="addResponsible()">
+      <i class="material-symbols-outlined icon">add_circle</i>Responsável
+    </a>
+  </div>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th class="text-right"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let responsible of responsibleList">
+        <td>{{ responsible.name }}</td>
+        <td>{{ responsible.phone }}</td>
+        <td>{{ responsible.email }}</td>
+        <td style="text-align: right">
+          <a
+            class="material-symbols-outlined mr-2"
+            (click)="openEditResponsible(responsible.id)"
+          >
+            edit_square</a
+          >
+          <a
+            class="material-symbols-outlined"
+            (click)="deleteResponsible(responsible.id)"
+          >
+            delete</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loading *ngIf="loading"></app-loading>

@@ -13,6 +13,8 @@ import { ProductComponent } from './pages/product/product.component';
 import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { InventoryHistoryComponent } from './pages/inventory/inventory-history/inventory-history.component';
+import { ResponsibleComponent } from './pages/responsible/responsible.component';
+import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
 
 const routes: Routes = [
   {
@@ -89,6 +91,22 @@ const routes: Routes = [
   {
     path: 'inventory-history',
     component: InventoryHistoryComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'responsible',
+    component: ResponsibleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'responsible/new',
+    component: ResponsibleFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'responsible/edit/:id',
+    component: ResponsibleFormComponent,
     canActivate: [AuthGuard],
   },
 ];

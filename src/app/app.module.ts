@@ -35,6 +35,8 @@ import { UpdateStatusScheduleComponent } from './components/update-status-schedu
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { AddCustomerComponent } from './components/add-customer/add-customer.component';
+import { ResponsibleComponent } from './pages/responsible/responsible.component';
+import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { AddCustomerComponent } from './components/add-customer/add-customer.com
     UpdateStatusScheduleComponent,
     PaginationComponent,
     AddCustomerComponent,
+    ResponsibleComponent,
+    ResponsibleFormComponent,
   ],
   imports: [
     BrowserModule,
