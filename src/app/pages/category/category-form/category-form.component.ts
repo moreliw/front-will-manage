@@ -32,7 +32,6 @@ export class CategoryFormComponent implements OnInit {
     this.formValue = fb.group({
       name: [null, Validators.required],
       description: [null, null],
-      createdAt: [null, null],
     });
   }
 
