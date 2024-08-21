@@ -9,6 +9,7 @@
   <table class="styled-table">
     <thead>
       <tr>
+        <th>Código</th>
         <th>Nome</th>
         <th>Descrição</th>
         <th class="text-center">Preço custo</th>
@@ -19,6 +20,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let product of productList">
+        <td>{{ product.code ? product.code : "-" }}</td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td class="text-center">{{ util.toMoney(product.costPrice) }}</td>

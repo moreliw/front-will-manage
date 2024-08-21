@@ -17,6 +17,15 @@
     >
       <div class="form-group row col-lg-12">
         <div class="group-input col-lg-3">
+          <label> Código </label>
+          <input
+            class="form-control"
+            type="number"
+            formControlName="code"
+            max="999999999"
+          />
+        </div>
+        <div class="group-input col-lg-3">
           <label> Nome </label>
           <input class="form-control" type="text" formControlName="name" />
           <span
@@ -53,11 +62,11 @@
           </span>
         </div>
         <div class="group-input col-lg-3">
-          <label> Descrição </label>
+          <label> Quantidade </label>
           <input
             class="form-control"
-            type="text"
-            formControlName="description"
+            type="number"
+            formControlName="quantity"
           />
         </div>
       </div>
@@ -78,12 +87,12 @@
             formControlName="salePrice"
           />
         </div>
-        <div class="group-input col-lg-3">
-          <label> Quantidade </label>
+        <div class="group-input col-lg-6">
+          <label> Descrição </label>
           <input
             class="form-control"
-            type="number"
-            formControlName="quantity"
+            type="text"
+            formControlName="description"
           />
         </div>
       </div>

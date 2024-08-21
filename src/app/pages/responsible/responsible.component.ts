@@ -12,7 +12,8 @@ export class ResponsibleComponent implements OnInit {
   loading = false;
   constructor(
     private responsibleService: ResponsibleService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -21,6 +22,10 @@ export class ResponsibleComponent implements OnInit {
 
   addResponsible() {
     this.router.navigate(['/responsible/new']);
+  }
+
+  openEditResponsible(id: string) {
+    this.router.navigate(['./edit/' + id], { relativeTo: this.route });
   }
 
   loadResponsible() {

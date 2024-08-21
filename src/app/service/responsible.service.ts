@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { Customer } from '../models/customer';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Responsible } from '../models/responsible';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,8 @@ export class ResponsibleService {
     return this.http.get<any>(`${this.apiUrl}/responsible`);
   }
 
-  getCustomerById(id: string): Observable<Customer> {
-    return this.http.get<Customer>(`${this.apiUrl}/customer/${id}`).pipe(
+  getResponsibleById(id: string): Observable<Responsible> {
+    return this.http.get<Responsible>(`${this.apiUrl}/responsible/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(error);
       })

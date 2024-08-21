@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponsibleService } from 'src/app/service/responsible.service';
@@ -11,15 +11,49 @@ import { ResponsibleService } from 'src/app/service/responsible.service';
 })
 export class ResponsibleFormComponent implements OnInit {
   formValue: FormGroup;
-  loading: false;
+  loading = false;
+  isEdit: boolean;
+  title: string = 'Responsável';
+  id: string;
+
   constructor(
-    private customersService: ResponsibleService,
+    private responsibleService: ResponsibleService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+    public fb: FormBuilder
+  ) {
+    this.isEdit = this.route.snapshot.paramMap.has('id');
 
-  ngOnInit(): void {}
+    if (this.isEdit) {
+      this.id = this.route.snapshot.paramMap.get('id');
+    }
+
+    this.formValue = fb.group({
+      name: [null, Validators.required],
+      email: [null, null],
+      phone: [null, null],
+    });
+  }
+
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  private getData() {
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id !== undefined && this.id != null) {
+      this.loading = true;
+      this.responsibleService
+        .getResponsibleById(this.id)
+        .subscribe((responsible) => {
+          this.formValue.patchValue({
+            ...responsible,
+          });
+          this.loading = false;
+        });
+    }
+  }
 
   goBack() {
     const currentUrl = this.route.snapshot.url;

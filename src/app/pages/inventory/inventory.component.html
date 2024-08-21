@@ -68,6 +68,7 @@
   <table class="styled-table">
     <thead>
       <tr>
+        <th class="text-left">Código</th>
         <th class="text-left">Item</th>
         <th class="text-center">Quantidade</th>
         <th class="text-center">Valor</th>
@@ -77,6 +78,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let inventory of inventoryList">
+        <td class="text-left">{{ inventory.code }}</td>
         <td class="text-left">{{ inventory.name }}</td>
         <td class="text-center">{{ inventory.quantity }}</td>
         <td class="text-center">{{ util.toMoney(inventory.costPrice) }}</td>

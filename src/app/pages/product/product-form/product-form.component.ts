@@ -34,6 +34,7 @@ export class ProductFormComponent implements OnInit {
     }
 
     this.formValue = fb.group({
+      code: [null, null],
       name: [null, Validators.required],
       description: [null, null],
       costPrice: [null, null],
