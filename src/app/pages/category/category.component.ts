@@ -5,6 +5,7 @@ import { UtilService } from 'src/app/service/util.service';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-category',
@@ -52,7 +53,6 @@ export class CategoryComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sim',
       cancelButtonText: 'Não',
-
       customClass: {
         cancelButton: 'order-1',
         confirmButton: 'order-2',
@@ -64,14 +64,17 @@ export class CategoryComponent implements OnInit {
           () => {
             this.loadCategories();
             this.loading = false;
-            Swal.fire('Deletado!', 'A categoria foi deletado.', 'success');
+            Swal.fire('Deletado!', 'A categoria foi deletada.', 'success');
           },
-          (error) => {
-            console.error('Erro ao deletar categoria', error);
+          (error: HttpErrorResponse) => {
             this.loading = false;
+            const errorMessage =
+              error.error?.messages[0] ||
+              'Houve um problema ao deletar a categoria.';
+
             Swal.fire(
-              'Erro!',
-              'Houve um problema ao deletar a categoria.',
+              'Houve um problema ao deletar a categoria!',
+              errorMessage,
               'error'
             );
           }
