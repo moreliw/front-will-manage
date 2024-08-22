@@ -87,7 +87,8 @@ tr {
 td:nth-child(1),
 td:nth-child(3),
 td:nth-child(4),
-td:nth-child(5) {
+td:nth-child(5),
+td:nth-child(6) {
   white-space: nowrap;
   width: 1%;
   text-align: center;
@@ -147,7 +148,7 @@ td:nth-child(2) {
 .tools-bar {
   display: flex;
   margin-top: 2rem;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -235,4 +236,43 @@ td:nth-child(2) {
   .subtitle {
     font-size: 1.25rem;
   }
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.dashboard-item {
+  border-radius: 8px;
+  padding: 28px 0 0;
+  cursor: pointer;
+}
+
+.dashboard-item-select {
+  background-color: #0e2238;
+}
+
+.group-input {
+  width: 20%;
+}
+
+.filters {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort {
+  margin-top: 2rem;
+}
+
+.styled-table tbody tr {
+  cursor: pointer;
+}
+
+.styled-table tbody tr.selected {
+  background-color: #c9c9c9;
+  transition: background-color 0.3s ease;
 }

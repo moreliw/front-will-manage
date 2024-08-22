@@ -1,0 +1,29 @@
+.sort-buttons {
+  display: flex;
+}
+
+.sort-buttons button {
+  flex: 1;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  outline: none;
+}
+
+.sort-buttons button:first-child {
+  border-right: none;
+}
+
+.sort-buttons button:last-child {
+  border-left: none;
+}
+
+.sort-buttons button.selected {
+  background-color: #0e2238;
+  color: white;
+}
+
+.sort-buttons button:not(.selected):hover {
+  background-color: #e0e0e0;
+}

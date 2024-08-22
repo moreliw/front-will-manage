@@ -1,0 +1,17 @@
+<div class="sort-buttons">
+  <button [class.selected]="selectedSort === 1" (click)="setSortOrder(1)">
+    Código
+  </button>
+  <button [class.selected]="selectedSort === 2" (click)="setSortOrder(2)">
+    Nome
+  </button>
+  <button [class.selected]="selectedSort === 3" (click)="setSortOrder(3)">
+    Categoria
+  </button>
+  <button [class.selected]="selectedSort === 4" (click)="setSortOrder(4)">
+    Quantidade maior
+  </button>
+  <button [class.selected]="selectedSort === 5" (click)="setSortOrder(5)">
+    Quantidade menor
+  </button>
+</div>

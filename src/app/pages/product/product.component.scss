@@ -10,6 +10,19 @@
   margin: 25px 0;
   font-size: 18px;
   text-align: left;
+  table-layout: fixed;
+}
+
+.code-column,
+.value-column,
+.quantity-column,
+.actions-column {
+  width: 101px;
+}
+
+.name-column,
+.category-column {
+  flex: 1;
 }
 
 .styled-table th,
@@ -46,6 +59,7 @@ tr {
 
 .up {
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .button-content {
@@ -97,6 +111,18 @@ tr {
     border-radius: 12px;
   }
 
+  .code-column,
+  .value-column,
+  .quantity-column,
+  .actions-column {
+    width: auto;
+  }
+
+  .name-column,
+  .category-column {
+    flex: none;
+  }
+
   .align-balance {
     justify-content: flex-start;
   }
@@ -117,4 +143,43 @@ tr {
   .styled-table td {
     padding: 6px 8px;
   }
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+.dashboard-item {
+  border-radius: 8px;
+  padding: 28px 0 0;
+  cursor: pointer;
+}
+
+.dashboard-item-select {
+  background-color: #0e2238;
+}
+
+.group-input {
+  width: 20%;
+}
+
+.filters {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort {
+  margin-top: 2rem;
+}
+
+.styled-table tbody tr {
+  cursor: pointer;
+}
+
+.styled-table tbody tr.selected {
+  background-color: #c9c9c9;
+  transition: background-color 0.3s ease;
 }

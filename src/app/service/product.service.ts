@@ -16,8 +16,38 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/product`);
+  // getProducts(): Observable<any> {
+  //   return this.http.get<any>(`${this.apiUrl}/product`);
+  // }
+
+  getProducts(
+    typeOrderProduct: number,
+    param: any,
+    search?: string,
+    categoryId?: string
+  ): Observable<any> {
+    let params = new HttpParams();
+    if (typeOrderProduct !== undefined) {
+      params = params.set('typeOrderProduct', `${typeOrderProduct}`);
+    }
+
+    if (param) {
+      params = params
+        .set('page', `${param.offset + 1}`)
+        .set('pageSize', `${param.limit}`);
+    }
+
+    if (search !== undefined || search !== '') {
+      params = params.set('search', `${search}`);
+    }
+
+    if (categoryId !== undefined || categoryId !== null) {
+      params = params.set('categoryId', `${categoryId}`);
+    }
+
+    return this.http.get<any>(`${this.apiUrl}/product`, {
+      params,
+    });
   }
 
   getProductsOnSearch(searchTerm: string): Observable<any> {

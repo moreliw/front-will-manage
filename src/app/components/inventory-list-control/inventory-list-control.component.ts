@@ -24,6 +24,16 @@ export class InventoryListControlComponent implements OnInit {
   }> = [];
   errors: string[] = [];
 
+  page = {
+    limit: 10,
+    count: 0,
+    offset: 0,
+    descricao: '',
+    ativo: true,
+  };
+  currentPage = 1;
+  search: string = '';
+
   constructor(
     public dialogRef: MatDialogRef<InventoryComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -44,7 +54,7 @@ export class InventoryListControlComponent implements OnInit {
 
   loadProducts() {
     this.loading = true;
-    this.productService.getProducts().subscribe((result) => {
+    this.productService.getProducts(1, this.page).subscribe((result) => {
       this.productList = result;
       this.loading = false;
     });

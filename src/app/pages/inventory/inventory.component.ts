@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { InventoryControlComponent } from 'src/app/components/inventory-control/inventory-control.component';
 import { EInventoryType } from 'src/app/models/Enum/EInventoryType';
 import { InventoryListControlComponent } from 'src/app/components/inventory-list-control/inventory-list-control.component';
+import { Category } from 'src/app/models/category';
+import { CategoryService } from 'src/app/service/category.service';
 
 @Component({
   selector: 'app-inventory',
@@ -22,18 +24,35 @@ export class InventoryComponent implements OnInit {
   inventorySummary: InventorySummary;
   loading = false;
 
+  page = {
+    limit: 10,
+    count: 0,
+    offset: 0,
+    descricao: '',
+    ativo: true,
+  };
+  currentPage = 1;
+  search: string = '';
+  categoryId: string = '';
+  currentSortOrder: number = 1;
+  categoryList: Category[] = [];
+  totalCount: number;
+  selectedProductId: string | null = null;
+
   constructor(
     private productService: ProductService,
     private inventoryService: InventoryService,
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private util: UtilService
+    private util: UtilService,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadSummaryInventory();
+    this.loadCategories();
   }
 
   loadSummaryInventory() {
@@ -46,8 +65,25 @@ export class InventoryComponent implements OnInit {
 
   loadProducts() {
     this.loading = true;
-    this.productService.getProducts().subscribe((result) => {
-      this.inventoryList = result;
+    this.productService
+      .getProducts(
+        this.currentSortOrder,
+        this.page,
+        this.search,
+        this.categoryId
+      )
+      .subscribe((result) => {
+        this.inventoryList = result.productList;
+        this.page.count = result.totalCount;
+        this.totalCount = result.totalCount;
+        this.loading = false;
+      });
+  }
+
+  loadCategories() {
+    this.loading = true;
+    this.categoryService.getCategories().subscribe((result) => {
+      this.categoryList = result;
       this.loading = false;
     });
   }
@@ -58,6 +94,20 @@ export class InventoryComponent implements OnInit {
       this.inventoryList = result;
       this.loading = false;
     });
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.page.count / this.page.limit);
+  }
+
+  pageCallback(page: number) {
+    this.currentPage = page;
+    this.page.offset = page - 1;
+    this.loadProducts();
+  }
+
+  onRowClick(productId: string) {
+    this.selectedProductId = productId;
   }
 
   openMultiStockControl(transactionType: EInventoryType) {
@@ -75,6 +125,20 @@ export class InventoryComponent implements OnInit {
         this.loadSummaryInventory();
       }
     });
+  }
+
+  filterByCategoryId() {
+    if (this.categoryId !== null) {
+      this.loadProducts();
+    } else {
+      this.categoryId = '';
+      this.loadProducts();
+    }
+  }
+
+  onSortOrderChanged(order: number) {
+    this.currentSortOrder = order;
+    this.loadProducts();
   }
 
   openSingleStockControl(productId: string, transactionType: EInventoryType) {

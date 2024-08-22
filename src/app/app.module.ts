@@ -37,6 +37,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { AddCustomerComponent } from './components/add-customer/add-customer.component';
 import { ResponsibleComponent } from './pages/responsible/responsible.component';
 import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
+import { SortButtonsComponent } from './components/sort-buttons/sort-buttons.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { ResponsibleFormComponent } from './pages/responsible/responsible-form/r
     AddCustomerComponent,
     ResponsibleComponent,
     ResponsibleFormComponent,
+    SortButtonsComponent,
   ],
   imports: [
     BrowserModule,
