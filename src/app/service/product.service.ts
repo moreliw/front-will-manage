@@ -63,6 +63,40 @@ export class ProductService {
     );
   }
 
+  getAllProducts(
+    typeOrderProduct: number,
+    search?: string,
+    categoryId?: string
+  ): Observable<Product[]> {
+    let params = new HttpParams();
+    if (typeOrderProduct !== undefined) {
+      params = params.set('typeOrderProduct', `${typeOrderProduct}`);
+    }
+
+    if (search !== undefined || search !== '') {
+      params = params.set('search', `${search}`);
+    }
+
+    if (categoryId !== undefined || categoryId !== null) {
+      params = params.set('categoryId', `${categoryId}`);
+    }
+
+    return this.http.get<Product[]>(`${this.apiUrl}/product/pdf`, { params });
+  }
+
+  generatePdf(htmlContent: string) {
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.post(
+      `${this.apiUrl}/product/generate`,
+      { htmlContent },
+      {
+        headers,
+        responseType: 'blob',
+      }
+    );
+  }
+
   addProduct(product: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/product`, product);
   }

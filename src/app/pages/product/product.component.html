@@ -34,6 +34,9 @@
 
   <div class="d-flex filters">
     <span class="mt-5">Total de {{ totalCount }} registros</span>
+    <div class="d-flex dashboard-item items-down">
+      <a class="clean-filters" (click)="generatePdf()"> Gerar PDF </a>
+    </div>
   </div>
 
   <table class="styled-table">

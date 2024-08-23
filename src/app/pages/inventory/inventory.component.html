@@ -82,7 +82,10 @@
   <div class="tools-bar">
     <span class="mt-5">Total de {{ totalCount }} registros</span>
     <div class="d-flex">
-      <div class="add-button" (click)="openMultiStockControl(1)">Entrada</div>
+      <div class="add-button" (click)="generatePdf()">Gerar PDF</div>
+      <div class="add-button ml-3" (click)="openMultiStockControl(1)">
+        Entrada
+      </div>
       <div class="add-button ml-3" (click)="openMultiStockControl(2)">
         Saída
       </div>

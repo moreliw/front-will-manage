@@ -56,4 +56,21 @@ export class UtilService {
       })
     );
   }
+
+  escapeHtml(text: string): string {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+      .replace(/ç/g, '&ccedil;')
+      .replace(/ã/g, '&atilde;')
+      .replace(/õ/g, '&otilde;')
+      .replace(/é/g, '&eacute;')
+      .replace(/á/g, '&aacute;')
+      .replace(/í/g, '&iacute;')
+      .replace(/ó/g, '&oacute;')
+      .replace(/ú/g, '&uacute;');
+  }
 }

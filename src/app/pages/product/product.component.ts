@@ -79,6 +79,25 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  generatePdf() {
+    this.loading = true;
+    this.productService
+      .getAllProducts(this.currentSortOrder, this.search, this.categoryId)
+      .subscribe((products) => {
+        const htmlContent = this.generateHtml(products);
+        this.productService.generatePdf(htmlContent).subscribe((blob: Blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'document.pdf';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          this.loading = false;
+        });
+      });
+  }
+
   addProduct() {
     this.router.navigate(['/product/new']);
   }
@@ -142,5 +161,82 @@ export class ProductComponent implements OnInit {
         );
       }
     });
+  }
+
+  generateHtml(products: Product[]): string {
+    let htmlContent = `
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          table.styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            page-break-inside: auto;
+          }
+  
+          table.styled-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #dddddd;
+            position: sticky;
+            top: 0;
+          }
+  
+          table.styled-table td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+
+          tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+          }
+  
+          thead {
+            display: table-header-group;
+          }
+
+          tbody {
+            display: table-row-group;
+          }
+
+          tfoot {
+            display: table-footer-group;
+          }
+        </style>
+      </head>
+      <body>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th class="text-center">Quantidade</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    products.forEach((product) => {
+      htmlContent += `
+        <tr>
+          <td>${product.code ? product.code : '-'}</td>
+          <td>${this.util.escapeHtml(product.name)}</td>
+          <td>${this.util.escapeHtml(product.category.name)}</td>
+          <td class="text-center">${product.quantity}</td>
+        </tr>`;
+    });
+
+    htmlContent += `
+          </tbody>
+        </table>
+      </body>
+      </html>
+    `;
+
+    return htmlContent;
   }
 }
