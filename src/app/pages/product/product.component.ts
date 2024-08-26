@@ -29,6 +29,7 @@ export class ProductComponent implements OnInit {
   currentPage = 1;
   search: string = '';
   selectedProductId: string | null = null;
+  searchTimeout: any;
 
   @Output() sortOrderChanged = new EventEmitter<string>();
 
@@ -123,6 +124,17 @@ export class ProductComponent implements OnInit {
 
   onRowClick(productId: string) {
     this.selectedProductId = productId;
+  }
+
+  onSearch(searchTerm: string = ''): void {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      this.search = searchTerm;
+      this.loadProducts();
+    }, 500);
   }
 
   deleteProduct(id: string) {

@@ -16,7 +16,7 @@
 
     <div class="d-flex dashboard-item items-down">
       <label></label>
-      <app-search></app-search>
+      <app-search (search)="onSearch($event)"></app-search>
     </div>
     <div class="group-input">
       <label> Categoria </label>

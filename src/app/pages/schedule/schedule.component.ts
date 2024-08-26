@@ -30,6 +30,8 @@ export class ScheduleComponent implements OnInit {
   currentPage = 1;
   search: string = '';
   selectedDate: string;
+  searchTimeout: any;
+
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
@@ -187,7 +189,13 @@ export class ScheduleComponent implements OnInit {
   }
 
   onSearch(searchTerm: string = ''): void {
-    this.search = searchTerm;
-    this.loadSchedule();
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      this.search = searchTerm;
+      this.loadSchedule();
+    }, 500);
   }
 }

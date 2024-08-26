@@ -1,0 +1,81 @@
+button.close {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button.close:focus {
+  outline: none;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table thead tr {
+  background-color: #0e2238;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #0e2238;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #0e2238;
+}
+
+tr {
+  font-size: medium;
+}
+
+.input-date {
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem 0 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0b0a1c9c;
+  font-weight: 500;
+  transition: 0.3s ease;
+  border: 1px solid #c6c6c6;
+}
+
+.dates {
+  display: inline-grid;
+}
+
+.search {
+  align-self: end;
+}
+
+.barra {
+  overflow-y: auto;
+}
+
+.add-button {
+  height: fit-content;
+  align-self: end;
+}

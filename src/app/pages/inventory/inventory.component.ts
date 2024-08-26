@@ -13,6 +13,7 @@ import { EInventoryType } from 'src/app/models/Enum/EInventoryType';
 import { InventoryListControlComponent } from 'src/app/components/inventory-list-control/inventory-list-control.component';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/service/category.service';
+import { HistoryComponent } from 'src/app/components/history/history.component';
 
 @Component({
   selector: 'app-inventory',
@@ -60,6 +61,13 @@ export class InventoryComponent implements OnInit {
     this.inventoryService.getSummaryInventory().subscribe((result) => {
       this.inventorySummary = result;
       this.loading = false;
+    });
+  }
+
+  openHistory() {
+    this.dialog.open(HistoryComponent, {
+      width: '900px',
+      height: '100vh',
     });
   }
 
