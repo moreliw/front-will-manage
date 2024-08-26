@@ -40,6 +40,7 @@ export class ProductFormComponent implements OnInit {
       costPrice: [null, null],
       salePrice: [null, null],
       quantity: [null, null],
+      unity: [null, null],
       categoryId: [null, null],
     });
   }

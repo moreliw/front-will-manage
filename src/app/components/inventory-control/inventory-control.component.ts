@@ -5,6 +5,7 @@ import { EInventoryType } from 'src/app/models/Enum/EInventoryType';
 import { InventoryComponent } from 'src/app/pages/inventory/inventory.component';
 import { InventoryService } from 'src/app/service/inventory.service';
 import { ProductService } from 'src/app/service/product.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inventory-control',
@@ -15,7 +16,9 @@ export class InventoryControlComponent implements OnInit {
   id: string;
   loading: boolean;
   quantity: number;
+  unity: number;
   quantityToSend: number = 0;
+  unityToSend = 0;
   nameProduct: string;
   transactionType: EInventoryType;
   constructor(
@@ -36,6 +39,7 @@ export class InventoryControlComponent implements OnInit {
     this.productService.getProductById(this.data.id).subscribe((product) => {
       if (product) {
         this.quantity = product.quantity;
+        this.unity = product.unity;
         this.nameProduct = product.name;
         this.loading = false;
       }
@@ -47,14 +51,26 @@ export class InventoryControlComponent implements OnInit {
       {
         productId: this.data.id,
         quantity: this.quantityToSend,
+        unity: this.unityToSend,
         transactionType: this.transactionType,
       },
     ];
     this.loading = true;
-    this.inventoryService.addInventory(entity).subscribe((result) => {
-      this.loading = false;
-      this.dialogRef.close(true);
-    });
+    this.inventoryService.addInventory(entity).subscribe(
+      (result) => {
+        this.loading = false;
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.loading = false;
+        console.error('Erro ao adicionar inventário:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Ocorreu um erro ao adicionar o inventário. Tente novamente.',
+        });
+      }
+    );
   }
 
   onClose(): void {

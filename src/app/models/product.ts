@@ -8,6 +8,7 @@ export class Product {
   costPrice: number;
   salePrice: number;
   quantity: number;
+  unity: number;
   createdAt: string;
   updatedAt: string;
   categoryId: string;

@@ -11,10 +11,10 @@
       <label class="balance-label">Item:</label>
       <span class="balance-value ml-3">{{ nameProduct }}</span>
     </div>
-    <div class="content">
+    <div class="content mb-4">
       <div>
         <label class="mr-1">{{
-          transactionType === 1 ? "Adicionar" : "Retirar"
+          transactionType === 1 ? "Adicionar quantidade" : "Retirar quantidade"
         }}</label>
         <input
           type="number"
@@ -28,6 +28,23 @@
           type="number"
           class="form-control"
           [(ngModel)]="quantity"
+          readonly
+        />
+      </div>
+    </div>
+    <div class="content">
+      <div>
+        <label class="mr-1">{{
+          transactionType === 1 ? "Adicionar unidade" : "Retirar unidade"
+        }}</label>
+        <input type="number" class="form-control" [(ngModel)]="unityToSend" />
+      </div>
+      <div class="balance-content">
+        <label class="mr-1">Em estoque</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="unity"
           readonly
         />
       </div>

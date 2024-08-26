@@ -101,7 +101,7 @@
         <th class="text-left">Categoria</th>
 
         <th class="text-center">Quantidade</th>
-        <th class="text-center">Valor</th>
+        <th class="text-center">Unidades</th>
 
         <th class="text-right"></th>
       </tr>
@@ -116,8 +116,12 @@
         <td class="text-left">{{ inventory.name }}</td>
         <td class="text-left">{{ inventory.category.name }}</td>
 
-        <td class="text-center">{{ inventory.quantity }}</td>
-        <td class="text-center">{{ util.toMoney(inventory.costPrice) }}</td>
+        <td class="text-center" [class.negative]="inventory.quantity < 0">
+          {{ inventory.quantity }}
+        </td>
+        <td class="text-center" [class.negative]="inventory.unity < 0">
+          {{ inventory.unity }}
+        </td>
 
         <td style="text-align: right">
           <a
