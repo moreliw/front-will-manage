@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
   currentSortOrder: number = 1;
   categoryId: string = '';
   page = {
-    limit: 10,
+    limit: 15,
     count: 0,
     offset: 0,
     descricao: '',

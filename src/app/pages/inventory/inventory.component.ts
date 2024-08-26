@@ -25,7 +25,7 @@ export class InventoryComponent implements OnInit {
   loading = false;
 
   page = {
-    limit: 10,
+    limit: 15,
     count: 0,
     offset: 0,
     descricao: '',
