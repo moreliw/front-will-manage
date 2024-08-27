@@ -45,7 +45,9 @@
         <th class="code-column">Código</th>
         <th class="name-column">Nome</th>
         <th class="category-column">Categoria</th>
-        <th class="value-column text-center">Valor</th>
+        <th class="value-column text-center">Custo</th>
+        <th class="value-column text-center">Venda</th>
+
         <th class="quantity-column text-center">Quantidade</th>
         <th class="actions-column text-right"></th>
       </tr>
@@ -61,6 +63,9 @@
         <td class="category-column">{{ product.category.name }}</td>
         <td class="value-column text-center">
           {{ util.toMoney(product.costPrice) }}
+        </td>
+        <td class="value-column text-center">
+          {{ util.toMoney(product.salePrice) }}
         </td>
         <td class="quantity-column text-center">{{ product.quantity }}</td>
         <td class="actions-column text-right">
