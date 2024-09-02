@@ -16,5 +16,6 @@ export class Schedule {
   phone: string;
   userId: string;
   customer: Customer;
+  duration: string;
   procedures: Procedure[];
 }

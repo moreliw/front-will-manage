@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="head-calendar">
+    <span
+      (click)="previousMonth()"
+      class="material-symbols-outlined arrow-color"
+    >
+      arrow_back_ios
+    </span>
+    <h3>{{ reuturnMonthAndYear() }}</h3>
+
+    <span (click)="nextMonth()" class="material-symbols-outlined arrow-color">
+      arrow_forward_ios
+    </span>
+  </div>
+
+  <hr class="line" />
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>DOM</th>
+        <th>SEG</th>
+        <th>TER</th>
+        <th>QUA</th>
+        <th>QUI</th>
+        <th>SEX</th>
+        <th>SÁB</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let semana of weeks">
+        <td *ngFor="let day of semana" (click)="selecionarData(day)">
+          <div
+            [ngClass]="{
+              'select-day': day.selected,
+              'current-month-days': day.type === 'current',
+              'after-and-before-months':
+                day.type === 'previous' || day.type === 'next',
+              'has-appointment': day.hasAppointment
+            }"
+          >
+            <span class="appointment-dot"></span>
+            {{ day.day }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

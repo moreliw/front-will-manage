@@ -8,7 +8,7 @@
         <a>Will Manage</a>
       </div>
     </div>
-    <ul class="sidebar-nav">
+    <ul class="sidebar-nav" *ngIf="routes.length > 0">
       <div *ngFor="let route of routes">
         <li class="sidebar-item" (click)="goTo(route.description, $event)">
           <a class="sidebar-link">

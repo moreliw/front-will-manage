@@ -1,77 +1,51 @@
-<div class="up d-flex mb-4">
-  <h2 class="title">Dashboard</h2>
+<header class="header">
+  <div class="logo">Dental Office</div>
+
+  <!-- Controle de Navegação de Semanas -->
+  <div class="week-controls">
+    <button class="btn btn-nav" (click)="goToPreviousWeek()">&#9664;</button>
+    <span class="week-label">{{ getWeekLabel() }}</span>
+    <button class="btn btn-nav" (click)="goToNextWeek()">&#9654;</button>
+  </div>
+
+  <!-- <div class="actions">
+    <button class="btn btn-green">Novo</button>
+    <input type="text" placeholder="Pesquisar..." />
+    <button class="btn btn-blue">Link de agendamento on-line</button>
+    <button class="btn btn-yellow">Alerta de Retorno</button>
+    <button class="btn btn-light">Tutoriais</button>
+  </div> -->
+</header>
+
+<div class="schedule-table">
+  <div
+    class="day-column"
+    *ngFor="let day of weekDays"
+    [ngClass]="{ 'current-day': isToday(day) }"
+  >
+    <div class="day-header">{{ day }}</div>
+
+    <!-- Loop para garantir que sempre existam 5 slots -->
+    <div
+      class="appointment"
+      *ngFor="let placeholder of placeholders; let i = index"
+    >
+      <div
+        *ngIf="appointments[day][i]; else emptySlot"
+        class="appointment-content"
+      >
+        <div class="color-bar"></div>
+        <div class="details">
+          <div class="time">{{ appointments[day][i].time }}</div>
+          <div class="name">{{ appointments[day][i].name }}</div>
+        </div>
+      </div>
+      <ng-template #emptySlot>
+        <div class="empty-slot">
+          <span class="material-symbols-outlined add-icon">add</span>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </div>
-
-<div class="dashboard-container">
-  <div
-    class="dashboard-item"
-    [class.dashboard-item-select]="selectedFilter === 1"
-    (click)="applyFilter(1)"
-  >
-    <div class="dashboard-card">
-      <a class="material-symbols-outlined">today</a>
-      <h3 class="titles">Hoje</h3>
-      <p class="numbers">12</p>
-    </div>
-  </div>
-
-  <div
-    class="dashboard-item"
-    [class.dashboard-item-select]="selectedFilter === 2"
-    (click)="applyFilter(2)"
-  >
-    <div class="dashboard-card">
-      <a class="material-symbols-outlined">date_range</a>
-      <h3 class="titles">Esta semana</h3>
-      <p class="numbers">10</p>
-    </div>
-  </div>
-
-  <div
-    class="dashboard-item"
-    [class.dashboard-item-select]="selectedFilter === 3"
-    (click)="applyFilter(3)"
-  >
-    <div class="dashboard-card">
-      <a class="material-symbols-outlined">calendar_month</a>
-      <h3 class="titles">Este mês</h3>
-      <p class="numbers">10</p>
-    </div>
-  </div>
-</div>
-
-<table class="styled-table">
-  <thead>
-    <tr>
-      <th class="text-left">Cliente</th>
-      <th class="text-center">Data agendamento</th>
-      <th class="text-center">Hora agendamento</th>
-      <th>Status</th>
-      <th class="text-right"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let schedule of scheduleList">
-      <td class="text-left">{{ schedule.customer.name }}</td>
-      <td class="text-center">{{ formatDate(schedule.scheduleDate) }}</td>
-      <td class="text-center">{{ formatTime(schedule.scheduleDate) }}</td>
-      <td>{{ EScheduleStatusLabel[schedule.status] }}</td>
-      <td style="text-align: right">
-        <a
-          *ngIf="schedule.status === 1"
-          class="material-symbols-outlined mr-2 icon-table"
-          (click)="openSingleStockControl(inventory.id, 1)"
-        >
-          event_available</a
-        >
-        <a
-          *ngIf="schedule.status === 1"
-          class="material-symbols-outlined icon-table"
-          (click)="openSingleStockControl(inventory.id, 2)"
-        >
-          event_busy</a
-        >
-      </td>
-    </tr>
-  </tbody>
-</table>
+<app-loading *ngIf-="loading"></app-loading>

@@ -242,6 +242,7 @@ export class InventoryComponent implements OnInit {
               <th>Nome</th>
               <th>Categoria</th>
               <th class="text-center">Quantidade</th>
+              <th class="text-center">Unidades</th>
             </tr>
           </thead>
           <tbody>`;
@@ -253,6 +254,9 @@ export class InventoryComponent implements OnInit {
           <td>${this.util.escapeHtml(product.name)}</td>
           <td>${this.util.escapeHtml(product.category.name)}</td>
           <td class="text-center">${product.quantity}</td>
+          <td class="text-center">${
+            product.unity === null ? 0 : product.unity
+          }</td>
         </tr>`;
     });
 

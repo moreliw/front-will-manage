@@ -172,6 +172,7 @@ export class HistoryComponent implements OnInit {
             <tr>
               <th class="text-left">Item</th>
               <th class="text-center">Quantidade</th>
+              <th class="text-center">Unidades</th>
               <th class="text-center">Transação</th>
               <th class="text-center">Data</th>
             </tr>
@@ -185,6 +186,9 @@ export class HistoryComponent implements OnInit {
             inventory.product.name
           )}</td>
           <td class="text-center">${inventory.quantity}</td>
+          <td class="text-center">${
+            inventory.unity === null ? 0 : inventory.unity
+          }</td>
           <td class="text-center">${
             inventory.transactionType === 1 ? 'Entrada' : 'Saída'
           }</td>

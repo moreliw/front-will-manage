@@ -23,6 +23,8 @@
     "@angular/router": "^12.2.17",
     "@ng-select/ng-select": "^7.4.0",
     "bootstrap": "^5.3.3",
+    "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
     "rxjs": "~6.5.5",
     "sweetalert2": "^11.12.3",
     "tslib": "^2.0.0",

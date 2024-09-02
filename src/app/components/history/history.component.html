@@ -35,6 +35,7 @@
       <tr>
         <th class="text-left">Item</th>
         <th class="text-center">Quantidade</th>
+        <th class="text-center">Unidades</th>
         <th class="text-center">Transação</th>
         <th class="text-center">Data</th>
       </tr>
@@ -47,8 +48,9 @@
       >
         <td class="text-left">{{ inventory.product.name }}</td>
         <td class="text-center">{{ inventory.quantity }}</td>
+        <td class="text-center">{{ inventory.unity }}</td>
         <td class="text-center">
-          {{ transactionType === 1 ? "Entrada" : "Saída" }}
+          {{ inventory.transactionType === 1 ? "Entrada" : "Saída" }}
         </td>
         <td class="text-center">
           {{ this.util.formatDateTime(inventory.transactionDate) }}

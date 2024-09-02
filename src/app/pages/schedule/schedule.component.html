@@ -62,6 +62,11 @@
     </div>
   </div>
 
+  <app-calendar
+    *ngIf="showCalendar"
+    (daySelect)="onDaySelect($event)"
+  ></app-calendar>
+
   <table class="styled-table">
     <thead>
       <tr>

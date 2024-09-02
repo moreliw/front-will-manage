@@ -1,0 +1,146 @@
+.container {
+  max-width: fit-content;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #333;
+  border-radius: 10%;
+  padding: 25px;
+}
+
+th {
+  text-align: center;
+  color: #fff;
+  background: #333;
+}
+
+.table-bordered td,
+.table-bordered th {
+  border: none;
+}
+.current-month-days {
+  color: #fff;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+}
+
+.after-and-before-months {
+  color: #8b8b8b;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+}
+
+.select-day {
+  background-color: #5d5d5d;
+  color: #fff;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  position: relative;
+}
+
+button {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+
+button.learn-more .circle-back .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(-135deg);
+}
+
+.td {
+  background: #333;
+}
+
+h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.line {
+  border: none;
+  border-top: 1px solid rgb(138, 138, 138);
+  margin-bottom: 20px;
+}
+
+.table {
+  font-size: small;
+  border-spacing: 0px !important;
+  border: transparent;
+}
+
+.table > :not(caption) > * > * {
+  background-color: #333 !important;
+}
+
+.head-calendar {
+  justify-content: space-between;
+  display: flex;
+}
+
+.arrow-color {
+  color: #fff;
+  cursor: pointer;
+}
+.appointment-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+}
+
+.has-appointment .appointment-dot {
+  display: block;
+  margin-right: 12px;
+}

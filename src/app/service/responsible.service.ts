@@ -30,11 +30,11 @@ export class ResponsibleService {
     );
   }
 
-  addCustomer(customer: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/customer`, customer);
+  addResponsible(responsible: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/responsible`, responsible);
   }
 
-  updateCustomer(id: string, customer: Customer): Observable<any> {
+  updateResponsible(id: string, customer: Customer): Observable<any> {
     return this.http.put(`${this.apiUrl}/customer/${id}`, customer).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(error);

@@ -5,8 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AddCustomerComponent } from 'src/app/components/add-customer/add-customer.component';
 import { ProcedureComponent } from 'src/app/components/procedure/procedure.component';
 import { Customer } from 'src/app/models/customer';
+import { Responsible } from 'src/app/models/responsible';
 import { Schedule } from 'src/app/models/schedule';
 import { CustomersService } from 'src/app/service/customers.service';
+import { ResponsibleService } from 'src/app/service/responsible.service';
 import { ScheduleService } from 'src/app/service/schedule.service';
 
 @Component({
@@ -22,6 +24,8 @@ export class ScheduleFormComponent implements OnInit {
   schedule: Schedule;
   loading = false;
   customerList: Customer[] = [];
+  responsibleList: Responsible[] = [];
+
   proceduresCount: number = 0;
 
   status = [
@@ -36,6 +40,7 @@ export class ScheduleFormComponent implements OnInit {
     private router: Router,
     private scheduleService: ScheduleService,
     private customersService: CustomersService,
+    private responsibleService: ResponsibleService,
     private dialog: MatDialog
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
@@ -51,12 +56,14 @@ export class ScheduleFormComponent implements OnInit {
       status: [1],
       observations: [null],
       procedures: this.fb.array([]),
+      responsible: [null],
     });
   }
 
   ngOnInit(): void {
     this.getData();
     this.loadCustomers();
+    this.loadResponsible();
   }
 
   private getData() {
@@ -160,6 +167,14 @@ export class ScheduleFormComponent implements OnInit {
     this.loading = true;
     this.customersService.getCustomers().subscribe((result) => {
       this.customerList = result;
+      this.loading = false;
+    });
+  }
+
+  loadResponsible() {
+    this.loading = true;
+    this.responsibleService.getResponsibles().subscribe((result) => {
+      this.responsibleList = result;
       this.loading = false;
     });
   }

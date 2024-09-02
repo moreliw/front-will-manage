@@ -39,6 +39,7 @@ import { ResponsibleComponent } from './pages/responsible/responsible.component'
 import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
 import { SortButtonsComponent } from './components/sort-buttons/sort-buttons.component';
 import { HistoryComponent } from './components/history/history.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { HistoryComponent } from './components/history/history.component';
     ResponsibleFormComponent,
     SortButtonsComponent,
     HistoryComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

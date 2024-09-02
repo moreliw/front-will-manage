@@ -5,6 +5,8 @@ import { CustomersService } from 'src/app/service/customers.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { BalanceComponent } from 'src/app/components/balance/balance.component';
+import { jwtDecode } from 'jwt-decode';
+import { UtilService } from 'src/app/service/util.service';
 
 @Component({
   selector: 'app-customer',
@@ -19,11 +21,13 @@ export class CustomerComponent implements OnInit {
     private customersService: CustomersService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public util: UtilService
   ) {}
 
   ngOnInit(): void {
     this.loadCustomers();
+    console.log(this.util.token());
   }
 
   loadCustomers() {

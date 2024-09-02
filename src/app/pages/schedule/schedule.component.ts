@@ -31,7 +31,8 @@ export class ScheduleComponent implements OnInit {
   search: string = '';
   selectedDate: string;
   searchTimeout: any;
-
+  showCalendar = false;
+  selectWeekDate = new Date();
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
@@ -42,6 +43,7 @@ export class ScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.loadSelectedFilter();
     this.loadSchedule();
+    this.loadWeekSchedule();
   }
 
   applyFilter(filter: number) {
@@ -81,6 +83,15 @@ export class ScheduleComponent implements OnInit {
         this.scheduleGrid = result;
         this.page.count = result.totalCount;
         this.loading = false;
+      });
+  }
+
+  loadWeekSchedule() {
+    this.loading = true;
+    this.scheduleService
+      .getSchedulesForWeek(this.selectWeekDate, this.page)
+      .subscribe((result) => {
+        console.log(result);
       });
   }
 
@@ -198,4 +209,6 @@ export class ScheduleComponent implements OnInit {
       this.loadSchedule();
     }, 500);
   }
+
+  onDaySelect(date: Date): void {}
 }

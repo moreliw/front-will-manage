@@ -13,7 +13,7 @@ export class ResponsibleFormComponent implements OnInit {
   formValue: FormGroup;
   loading = false;
   isEdit: boolean;
-  title: string = 'Responsável';
+  title: string = 'Dentista';
   id: string;
 
   constructor(
@@ -53,6 +53,26 @@ export class ResponsibleFormComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+
+  addResponsible() {
+    this.responsibleService.addResponsible(this.formValue.value).subscribe(
+      () => {
+        this.goBack();
+      },
+      () => {}
+    );
+  }
+
+  updateResponsible() {
+    this.responsibleService
+      .updateResponsible(this.id, this.formValue.value)
+      .subscribe(
+        () => {
+          this.goBack();
+        },
+        () => {}
+      );
   }
 
   goBack() {

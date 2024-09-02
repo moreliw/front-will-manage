@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomersService } from 'src/app/service/customers.service';
+import { UtilService } from 'src/app/service/util.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -21,7 +22,8 @@ export class CustomerFormComponent implements OnInit {
     public fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private customerService: CustomersService
+    private customerService: CustomersService,
+    public util: UtilService
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 

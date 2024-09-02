@@ -49,6 +49,21 @@ export class ScheduleService {
     });
   }
 
+  getSchedulesForWeek(selectWeekDate: Date, param: any): Observable<any> {
+    let params = new HttpParams();
+    if (param) {
+      params = params
+        .set('page', `${param.offset + 1}`)
+        .set('pageSize', `${param.limit}`);
+    }
+
+    if (selectWeekDate) {
+      params = params.set('selectWeekDate', selectWeekDate.toISOString());
+    }
+
+    return this.http.get<any>(`${this.apiUrl}/schedule/week`, { params });
+  }
+
   getScheduleById(id: string): Observable<Schedule> {
     return this.http.get<Schedule>(`${this.apiUrl}/schedule/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {

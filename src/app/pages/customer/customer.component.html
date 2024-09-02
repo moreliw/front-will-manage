@@ -12,7 +12,9 @@
         <th>Nome</th>
         <th>Telefone</th>
         <th>Email</th>
-        <th class="text-center">Saldo</th>
+        <th *ngIf="util.token() !== 'BasicSchedule'" class="text-center">
+          Saldo
+        </th>
         <th class="text-right"></th>
       </tr>
     </thead>
@@ -21,7 +23,7 @@
         <td>{{ customer.name }}</td>
         <td>{{ customer.phone }}</td>
         <td>{{ customer.email }}</td>
-        <td class="align-balance">
+        <td class="align-balance" *ngIf="util.token() !== 'BasicSchedule'">
           <a
             class="material-symbols-outlined mr-1"
             (click)="openBalance(customer.id, customer.balance)"
