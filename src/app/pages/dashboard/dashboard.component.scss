@@ -1,4 +1,8 @@
-/* schedule-table.component.css */
+.header {
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .schedule-table {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -84,6 +88,29 @@
 .current-day {
   background: #002f852e;
   border-radius: 1.5rem;
+}
+
+.week-controls {
+  display: flex;
+  align-items: center;
+}
+
+.week-label {
+  font-size: 1rem;
+  font-weight: 100;
+}
+
+.arrow-rotate {
+  rotate: 180deg;
+}
+
+.arrow {
+  font-size: large;
+  background: #0e2238;
+  color: #fff !important;
+  padding: 3px;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 @media (max-width: 1200px) {

@@ -48,16 +48,28 @@ export class InventoryListControlComponent implements OnInit {
     this.addItem();
   }
 
-  onClose(): void {
-    this.dialogRef.close(false);
+  onClose(result: boolean): void {
+    this.dialogRef.close(result);
   }
 
   loadProducts() {
     this.loading = true;
-    this.productService.getProducts(1, this.page).subscribe((result) => {
-      this.productList = result;
-      this.loading = false;
-    });
+    this.productService.getProducts(1, this.page).subscribe(
+      (result) => {
+        this.productList = result.productList;
+        this.loading = false;
+      },
+      (error) => {
+        const errorMessage =
+          error.error?.error || 'Ocorreu um erro ao processar sua solicitação.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro!',
+          text: errorMessage,
+        });
+        this.loading = false;
+      }
+    );
   }
 
   addItem(): void {
@@ -106,6 +118,7 @@ export class InventoryListControlComponent implements OnInit {
           title: 'Sucesso!',
           text: 'Os dados foram salvos com sucesso.',
         });
+        this.onClose(true);
         this.loading = false;
       },
       (error) => {

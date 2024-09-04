@@ -94,11 +94,19 @@ export class DashboardComponent implements OnInit {
   }
 
   loadWeekSchedule() {
+    this.appointments = {
+      Segunda: [],
+      Terça: [],
+      Quarta: [],
+      Quinta: [],
+      Sexta: [],
+    };
     this.loading = true;
     this.scheduleService
       .getSchedulesForWeek(this.selectWeekDate, this.page)
       .subscribe((result) => {
         this.updateAppointments(result.scheduleList);
+        this.loading = false;
       });
   }
 
@@ -114,6 +122,10 @@ export class DashboardComponent implements OnInit {
 
   goToCustomers() {
     this.router.navigate(['/customers']);
+  }
+
+  newSchedule() {
+    this.router.navigate(['/schedule/new']);
   }
 
   applyFilter(filter: number) {
@@ -170,25 +182,24 @@ export class DashboardComponent implements OnInit {
   getWeekLabel(): string {
     const startOfWeek = this.getStartOfWeek(this.selectWeekDate);
     const endOfWeek = this.getEndOfWeek(this.selectWeekDate);
-    return `${this.formatDate(startOfWeek.toDateString())} - ${this.formatDate(
-      endOfWeek.toDateString()
+
+    return `${this.formatDate(startOfWeek.toISOString())} - ${this.formatDate(
+      endOfWeek.toISOString()
     )}`;
   }
 
   getStartOfWeek(date: Date): Date {
     const start = new Date(date);
     const day = start.getDay();
-    const difference = day === 0 ? 6 : day - 1; // Ajuste se o domingo for o primeiro dia
+    const difference = (day === 0 ? 7 : day) - 1; // Ajuste para que segunda seja o primeiro dia
     start.setDate(start.getDate() - difference);
     return start;
   }
 
-  // Obtém o final da semana (domingo)
   getEndOfWeek(date: Date): Date {
-    const end = new Date(date);
-    const day = end.getDay();
-    const difference = day === 0 ? 0 : 7 - day; // Ajuste se o domingo for o primeiro dia
-    end.setDate(end.getDate() + difference);
-    return end;
+    const startOfWeek = this.getStartOfWeek(date);
+    const endOfWorkWeek = new Date(startOfWeek);
+    endOfWorkWeek.setDate(startOfWeek.getDate() + 4); // Adiciona 4 dias para chegar na sexta-feira
+    return endOfWorkWeek;
   }
 }

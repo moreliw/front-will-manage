@@ -1,6 +1,11 @@
 <div class="general">
   <div class="up-content">
-    <button type="button" class="close" aria-label="Fechar" (click)="onClose()">
+    <button
+      type="button"
+      class="close"
+      aria-label="Fechar"
+      (click)="onClose(false)"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
     <h1 mat-dialog-title>{{ transactionType === 1 ? "Entrada" : "Saída" }}</h1>
@@ -39,7 +44,7 @@
   </div>
 
   <div class="buttons">
-    <div class="add-button mr-4" (click)="onClose()">Cancelar</div>
+    <div class="add-button mr-4" (click)="onClose(false)">Cancelar</div>
     <div class="add-button" (click)="submit()" [class.disabled]="hasErrors">
       Salvar
     </div>

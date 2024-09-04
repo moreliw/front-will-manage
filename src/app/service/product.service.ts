@@ -27,6 +27,7 @@ export class ProductService {
     categoryId?: string
   ): Observable<any> {
     let params = new HttpParams();
+
     if (typeOrderProduct !== undefined) {
       params = params.set('typeOrderProduct', `${typeOrderProduct}`);
     }
@@ -37,11 +38,11 @@ export class ProductService {
         .set('pageSize', `${param.limit}`);
     }
 
-    if (search !== undefined || search !== '') {
+    if (search && search.trim() !== '') {
       params = params.set('search', `${search}`);
     }
 
-    if (categoryId !== undefined || categoryId !== null) {
+    if (categoryId) {
       params = params.set('categoryId', `${categoryId}`);
     }
 
