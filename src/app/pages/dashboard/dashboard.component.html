@@ -1,5 +1,4 @@
 <header class="header d-flex">
-  <!-- Controle de Navegação de Semanas -->
   <div class="week-controls">
     <a
       class="material-symbols-outlined arrow arrow-rotate mr-2"
@@ -12,30 +11,49 @@
       arrow_forward_ios
     </a>
   </div>
-  <div class="add-button ml-3" (click)="newSchedule()">Novo agendamento</div>
+  <div class="d-flex">
+    <div class="add-button ml-3" (click)="newSchedule()">Novo agendamento</div>
+  </div>
 </header>
 
 <div class="schedule-table">
   <div
     class="day-column"
     *ngFor="let day of weekDays"
-    [ngClass]="{ 'current-day': isToday(day) }"
+    [ngClass]="{ 'current-day': isToday(day.date) }"
   >
-    <div class="day-header">{{ day }}</div>
-
-    <!-- Loop para garantir que sempre existam 5 slots -->
+    <div class="day-header">{{ day.name }}</div>
+    <div class="day-header">{{ util.formatDateLiteraly(day.date) }}</div>
     <div
+      (click)="addScheduleOnDay(day, appointments[day.name][i]?.scheduleId)"
       class="appointment"
       *ngFor="let placeholder of placeholders; let i = index"
     >
       <div
-        *ngIf="appointments[day][i]; else emptySlot"
+        *ngIf="appointments[day.name][i]; else emptySlot"
         class="appointment-content"
       >
-        <div class="color-bar"></div>
+        <div
+          [matTooltip]="EScheduleStatusLabel[appointments[day.name][i].status]"
+          class="color-bar"
+          [ngStyle]="{
+            'background-color': getColorByStatus(
+              appointments[day.name][i]?.status
+            )
+          }"
+        ></div>
         <div class="details">
-          <div class="time">{{ appointments[day][i].time }}</div>
-          <div class="name">{{ appointments[day][i].name }}</div>
+          <div class="time">{{ appointments[day.name][i].time }}</div>
+          <div class="name">{{ appointments[day.name][i].name }}</div>
+        </div>
+        <div
+          *ngIf="appointments[day.name][i].dentist"
+          [matTooltip]="appointments[day.name][i].dentist"
+          matTooltipPosition="above"
+          (matTooltipMouseenter)="onTooltipMouseEnter($event)"
+          class="info material-symbols-outlined"
+        >
+          person
         </div>
       </div>
       <ng-template #emptySlot>

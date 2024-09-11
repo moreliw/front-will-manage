@@ -53,3 +53,15 @@
   cursor: pointer;
   margin-top: 2rem;
 }
+
+.add-customer-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.add-customer-btn a {
+  font-size: 20px;
+  color: #007bff;
+}

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponsibleService } from 'src/app/service/responsible.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-responsible-form',
@@ -20,7 +21,8 @@ export class ResponsibleFormComponent implements OnInit {
     private responsibleService: ResponsibleService,
     private router: Router,
     private route: ActivatedRoute,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private location: Location
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 
@@ -76,11 +78,6 @@ export class ResponsibleFormComponent implements OnInit {
   }
 
   goBack() {
-    const currentUrl = this.route.snapshot.url;
-    if (currentUrl[currentUrl.length - 1].path === 'new') {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.location.back();
   }
 }

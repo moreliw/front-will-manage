@@ -5,6 +5,7 @@ import { Category } from 'src/app/models/category';
 import { Product } from 'src/app/models/product';
 import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-form',
@@ -25,7 +26,8 @@ export class ProductFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private location: Location
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 
@@ -100,11 +102,6 @@ export class ProductFormComponent implements OnInit {
   }
 
   goBack() {
-    const currentUrl = this.route.snapshot.url;
-    if (currentUrl[currentUrl.length - 1].path === 'new') {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.location.back();
   }
 }

@@ -1,0 +1,27 @@
+<div>
+  <div class="up-content">
+    <div class="d-flex title-up">
+      <h1>
+        {{ formatScheduleTime(schedule?.scheduleDate, schedule?.duration) }}
+      </h1>
+      <h1>{{ schedule?.customer.name }}</h1>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="balance-content">
+      <label class="balance-label">DENTISTA</label>
+      <span class="balance-value">{{ schedule?.responsible?.name }}</span>
+    </div>
+    <div class="balance-content">
+      <label class="balance-label">STATUS</label>
+      <span class="balance-value">{{
+        EScheduleStatusLabel[schedule?.status]
+      }}</span>
+    </div>
+  </div>
+  <div class="buttons">
+    <div class="add-button mr-4" (click)="onClose()">Fechar</div>
+  </div>
+</div>
+<app-loading *ngIf="loading"></app-loading>

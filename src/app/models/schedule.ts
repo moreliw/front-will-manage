@@ -1,5 +1,6 @@
 import { Customer } from './customer';
 import { Procedure } from './procedure';
+import { Responsible } from './responsible';
 
 export class ScheduleGrid {
   scheduleList: Schedule[];
@@ -18,4 +19,5 @@ export class Schedule {
   customer: Customer;
   duration: string;
   procedures: Procedure[];
+  responsible: Responsible;
 }

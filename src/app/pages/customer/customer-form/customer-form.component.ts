@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { CustomersService } from 'src/app/service/customers.service';
 import { UtilService } from 'src/app/service/util.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-customer-form',
@@ -23,7 +24,8 @@ export class CustomerFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomersService,
-    public util: UtilService
+    public util: UtilService,
+    private location: Location
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 
@@ -78,11 +80,6 @@ export class CustomerFormComponent implements OnInit {
   }
 
   goBack() {
-    const currentUrl = this.route.snapshot.url;
-    if (currentUrl[currentUrl.length - 1].path === 'new') {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.location.back();
   }
 }

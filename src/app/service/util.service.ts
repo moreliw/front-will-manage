@@ -13,6 +13,13 @@ export class UtilService {
     return localDate.toLocaleDateString();
   }
 
+  formatDateLiteraly(datetime: string): string {
+    const [year, month, day] = datetime.split('-').map(Number);
+    const localDate = new Date(year, month - 1, day);
+
+    return localDate.toLocaleDateString('pt-BR');
+  }
+
   formatDateToString(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -21,6 +28,7 @@ export class UtilService {
   }
 
   formatDateToLocal(datetime: string): string {
+    console.log(datetime);
     const date = new Date(datetime);
     const localDate = new Date(
       date.getTime() - date.getTimezoneOffset() * 60000

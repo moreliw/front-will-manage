@@ -10,6 +10,10 @@ import { Schedule } from 'src/app/models/schedule';
 import { CustomersService } from 'src/app/service/customers.service';
 import { ResponsibleService } from 'src/app/service/responsible.service';
 import { ScheduleService } from 'src/app/service/schedule.service';
+import { Location } from '@angular/common';
+import { duration } from 'moment';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-schedule-form',
@@ -24,14 +28,21 @@ export class ScheduleFormComponent implements OnInit {
   schedule: Schedule;
   loading = false;
   customerList: Customer[] = [];
+  customerListWithAddOption: Customer[] = [];
   responsibleList: Responsible[] = [];
 
   proceduresCount: number = 0;
-
+  day: any;
   status = [
-    { value: 1, description: 'Agendado' },
-    { value: 2, description: 'Cancelado' },
-    { value: 3, description: 'Concluído' },
+    { value: 1, description: 'Agendado', color: '#007bff' },
+    { value: 2, description: 'Cancelado', color: '#dc3545' },
+    { value: 3, description: 'Concluído', color: '#28a745' },
+    { value: 4, description: 'Em andamento', color: '#ffc107' },
+    { value: 5, description: 'Confirmado', color: '#17a2b8' },
+    { value: 6, description: 'Não compareceu', color: '#6c757d' },
+    { value: 7, description: 'Remarcado', color: '#fd7e14' },
+    { value: 8, description: 'Na sala de espera', color: '#e83e8c' },
+    { value: 9, description: 'Acompanhamento', color: '#343a40' },
   ];
 
   constructor(
@@ -41,7 +52,8 @@ export class ScheduleFormComponent implements OnInit {
     private scheduleService: ScheduleService,
     private customersService: CustomersService,
     private responsibleService: ResponsibleService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 
@@ -56,11 +68,26 @@ export class ScheduleFormComponent implements OnInit {
       status: [1],
       observations: [null],
       procedures: this.fb.array([]),
-      responsible: [null],
+      responsibleId: [null],
+      duration: ['00:30', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.day = params['day'];
+      if (params.scheduleId !== null && params.scheduleId) {
+        this.id = params['scheduleId'];
+        this.isEdit = true;
+      }
+
+      if (this.day) {
+        this.formValue.patchValue({
+          scheduleDate: this.day,
+        });
+      }
+    });
+
     this.getData();
     this.loadCustomers();
     this.loadResponsible();
@@ -137,13 +164,19 @@ export class ScheduleFormComponent implements OnInit {
         this.loading = false;
         this.goBack();
       },
-      () => {
+      (error) => {
         this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo deu errado!',
+          text: error.error.error,
+        });
       }
     );
   }
 
   updateSchedule() {
+    this.loading = true;
     const formValue = this.formValue.value;
     const scheduleDateTime = this.combineDateAndTime(
       formValue.scheduleDate,
@@ -157,9 +190,17 @@ export class ScheduleFormComponent implements OnInit {
 
     this.scheduleService.updateSchedule(this.id, payload).subscribe(
       () => {
+        this.loading = false;
         this.goBack();
       },
-      () => {}
+      (error) => {
+        this.loading = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo deu errado!',
+          text: error.error.error,
+        });
+      }
     );
   }
 
@@ -167,8 +208,30 @@ export class ScheduleFormComponent implements OnInit {
     this.loading = true;
     this.customersService.getCustomers().subscribe((result) => {
       this.customerList = result;
+
+      this.customerListWithAddOption = [
+        ...this.customerList,
+        {
+          id: null,
+          name: 'Adicionar novo cliente',
+          phone: null,
+          balance: null,
+          email: null,
+          userId: null,
+        },
+      ];
+
       this.loading = false;
     });
+  }
+
+  onCustomerChange(selectedCustomer: any) {
+    if (
+      selectedCustomer &&
+      selectedCustomer.name === 'Adicionar novo cliente'
+    ) {
+      this.router.navigate(['/add-customer']);
+    }
   }
 
   loadResponsible() {
@@ -207,12 +270,54 @@ export class ScheduleFormComponent implements OnInit {
     });
   }
 
+  addCustomerTag = (name: string) => {
+    Swal.fire({
+      title: 'Deseja adicionar novo cliente?',
+      text: 'O cliente será cadastrado na sua lista de clientes',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      customClass: {
+        cancelButton: 'order-1',
+        confirmButton: 'order-2',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true;
+        const entity = {
+          name: name,
+        };
+        this.customersService.addCustomer(entity).subscribe(
+          (newCustomer) => {
+            console.log(newCustomer);
+            this.loading = false;
+            Swal.fire('Adicionado!', 'Cliente adicionado', 'success');
+
+            this.loadCustomers();
+
+            this.formValue.patchValue({ customerId: newCustomer.id });
+          },
+          (error: HttpErrorResponse) => {
+            this.loading = false;
+            const errorMessage =
+              error.error?.messages[0] ||
+              'Houve um problema ao adicionar o cliente.';
+
+            Swal.fire(
+              'Houve um problema ao adicionar o cliente!',
+              errorMessage,
+              'error'
+            );
+          }
+        );
+      }
+    });
+  };
+
   goBack() {
-    const currentUrl = this.route.snapshot.url;
-    if (currentUrl[currentUrl.length - 1].path === 'new') {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.location.back();
   }
 }

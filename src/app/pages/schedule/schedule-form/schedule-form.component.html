@@ -25,6 +25,8 @@
             notFoundText="Nenhum cliente encontrado"
             [clearable]="false"
             formControlName="customerId"
+            [addTag]="addCustomerTag"
+            [addTagText]="'Adicionar novo cliente: '"
           >
           </ng-select>
           <span
@@ -38,13 +40,7 @@
             Este campo é obrigatório
           </span>
         </div>
-        <div
-          class="group-input add-customer"
-          matTooltip="Adicionar cliente"
-          (click)="addCustomer()"
-        >
-          <a class="material-symbols-outlined">add_circle</a>
-        </div>
+
         <div class="group-input col-lg-3">
           <label> Data agendamento </label>
           <input
@@ -76,6 +72,20 @@
               formValue.controls['scheduleTime'].hasError('required') &&
               (formValue.controls['scheduleTime'].dirty ||
                 formValue.controls['scheduleTime'].touched)
+            "
+          >
+            Este campo é obrigatório
+          </span>
+        </div>
+        <div class="group-input col-lg-2">
+          <label> Duração </label>
+          <input class="form-control" type="time" formControlName="duration" />
+          <span
+            class="text-danger"
+            *ngIf="
+              formValue.controls['duration'].hasError('required') &&
+              (formValue.controls['duration'].dirty ||
+                formValue.controls['duration'].touched)
             "
           >
             Este campo é obrigatório
@@ -118,7 +128,7 @@
             [items]="responsibleList"
             bindLabel="name"
             bindValue="id"
-            formControlName="responsible"
+            formControlName="responsibleId"
           >
           </ng-select>
         </div>

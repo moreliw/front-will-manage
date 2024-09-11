@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { EScheduleStatusLabel } from 'src/app/models/Enum/EScheduleStatus';
+import { InfoScheduleComponent } from 'src/app/components/info-schedule/info-schedule.component';
+import {
+  EScheduleStatus,
+  EScheduleStatusColors,
+  EScheduleStatusLabel,
+} from 'src/app/models/Enum/EScheduleStatus';
 import { Schedule, ScheduleGrid } from 'src/app/models/schedule';
 import { ScheduleService } from 'src/app/service/schedule.service';
+import { UtilService } from 'src/app/service/util.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +31,7 @@ export class DashboardComponent implements OnInit {
   };
   scheduleGrid: ScheduleGrid;
   selectWeekDate = new Date();
-  weekDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
+  weekDays: Array<{ name: string; date: string }> = [];
 
   appointments = {
     Segunda: [],
@@ -33,7 +40,8 @@ export class DashboardComponent implements OnInit {
     Quinta: [],
     Sexta: [],
   };
-  placeholders = Array(5).fill(null);
+
+  placeholders = Array(6).fill(null);
 
   dayOfWeekMapping: { [key: string]: string } = {
     'segunda-feira': 'Segunda',
@@ -44,12 +52,14 @@ export class DashboardComponent implements OnInit {
   };
   constructor(
     private router: Router,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private dialog: MatDialog,
+    private util: UtilService
   ) {}
 
   ngOnInit(): void {
-    this.loadSchedule();
     this.loadWeekSchedule();
+    this.loadSchedule();
   }
 
   loadSchedule() {
@@ -81,11 +91,21 @@ export class DashboardComponent implements OnInit {
             endTime
           )}`,
           name: schedule.customer.name,
+          scheduleId: schedule.id,
+          status: schedule.status,
+          dentist: schedule.responsible?.name,
         });
       } else {
         console.warn('Invalid day:', dayOfWeekFull);
       }
     });
+  }
+  tooltipInfo(info) {
+    return EScheduleStatusLabel[info.status];
+  }
+
+  onTooltipMouseEnter(event: MouseEvent) {
+    event.stopPropagation();
   }
 
   convertDurationToMinutes(duration: string): number {
@@ -102,26 +122,28 @@ export class DashboardComponent implements OnInit {
       Sexta: [],
     };
     this.loading = true;
+    console.log(this.selectWeekDate);
     this.scheduleService
       .getSchedulesForWeek(this.selectWeekDate, this.page)
       .subscribe((result) => {
         this.updateAppointments(result.scheduleList);
+        this.generateWeekDays();
         this.loading = false;
       });
   }
 
   isToday(day: string): boolean {
-    const today = new Date().toLocaleDateString('pt-BR', { weekday: 'long' });
-    const normalizedDay = this.dayOfWeekMapping[today];
-    return day === normalizedDay;
+    const today = new Date();
+    const todayFormatted = today.toISOString().split('T')[0];
+    return day === todayFormatted;
   }
 
   toggle() {
     document.querySelector('#sidebar').classList.toggle('expand');
   }
 
-  goToCustomers() {
-    this.router.navigate(['/customers']);
+  newCustomer() {
+    this.router.navigate(['/customers/new']);
   }
 
   newSchedule() {
@@ -130,6 +152,27 @@ export class DashboardComponent implements OnInit {
 
   applyFilter(filter: number) {
     this.selectedFilter = filter;
+  }
+
+  generateWeekDays(): void {
+    const startOfWeek = this.getMonday(this.selectWeekDate);
+
+    this.weekDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'].map(
+      (day, index) => {
+        const currentDay = new Date(startOfWeek);
+        currentDay.setDate(startOfWeek.getDate() + index);
+        return {
+          name: day,
+          date: currentDay.toISOString().split('T')[0],
+        };
+      }
+    );
+  }
+
+  getMonday(date: Date): Date {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
   }
 
   formatDate(datetime: string): string {
@@ -162,6 +205,15 @@ export class DashboardComponent implements OnInit {
 
   onDaySelect(date: Date): void {}
 
+  addScheduleOnDay(day: { name: string; date: string }, scheduleId?: string) {
+    const queryParams: any = { day: day.date };
+    if (scheduleId) {
+      queryParams.scheduleId = scheduleId;
+    }
+
+    this.router.navigate(['/schedule/new'], { queryParams });
+  }
+
   goToPreviousWeek() {
     this.selectWeekDate = this.addWeeks(this.selectWeekDate, -1);
     this.loadWeekSchedule();
@@ -172,7 +224,6 @@ export class DashboardComponent implements OnInit {
     this.loadWeekSchedule();
   }
 
-  // Adiciona ou subtrai semanas à data fornecida
   addWeeks(date: Date, weeks: number): Date {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + weeks * 7);
@@ -191,7 +242,7 @@ export class DashboardComponent implements OnInit {
   getStartOfWeek(date: Date): Date {
     const start = new Date(date);
     const day = start.getDay();
-    const difference = (day === 0 ? 7 : day) - 1; // Ajuste para que segunda seja o primeiro dia
+    const difference = (day === 0 ? 7 : day) - 1;
     start.setDate(start.getDate() - difference);
     return start;
   }
@@ -199,7 +250,22 @@ export class DashboardComponent implements OnInit {
   getEndOfWeek(date: Date): Date {
     const startOfWeek = this.getStartOfWeek(date);
     const endOfWorkWeek = new Date(startOfWeek);
-    endOfWorkWeek.setDate(startOfWeek.getDate() + 4); // Adiciona 4 dias para chegar na sexta-feira
+    endOfWorkWeek.setDate(startOfWeek.getDate() + 4);
     return endOfWorkWeek;
+  }
+
+  getColorByStatus(status: EScheduleStatus): string {
+    return EScheduleStatusColors[status] || '#2c5aa0';
+  }
+
+  info(scheduleId: any, event: MouseEvent) {
+    event.stopPropagation();
+    const data = {
+      id: scheduleId,
+    };
+    this.dialog.open(InfoScheduleComponent, {
+      width: '500px',
+      data: data,
+    });
   }
 }

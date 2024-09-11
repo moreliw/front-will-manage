@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/models/category';
 import { CategoryService } from 'src/app/service/category.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-category-form',
@@ -21,7 +22,8 @@ export class CategoryFormComponent implements OnInit {
     public fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private location: Location
   ) {
     this.isEdit = this.route.snapshot.paramMap.has('id');
 
@@ -83,11 +85,6 @@ export class CategoryFormComponent implements OnInit {
   }
 
   goBack() {
-    const currentUrl = this.route.snapshot.url;
-    if (currentUrl[currentUrl.length - 1].path === 'new') {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    } else {
-      this.router.navigate(['../../'], { relativeTo: this.route });
-    }
+    this.location.back();
   }
 }
