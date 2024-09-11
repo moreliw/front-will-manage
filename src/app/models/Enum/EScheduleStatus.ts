@@ -23,13 +23,13 @@ export const EScheduleStatusLabel: Record<EScheduleStatus, string> = {
 };
 
 export const EScheduleStatusColors: Record<EScheduleStatus, string> = {
-  [EScheduleStatus.Scheduled]: '#007bff',
-  [EScheduleStatus.Canceled]: '#dc3545',
-  [EScheduleStatus.Completed]: '#28a745',
-  [EScheduleStatus.InProgress]: '#ffc107',
-  [EScheduleStatus.Confirmed]: '#17a2b8',
-  [EScheduleStatus.NoShow]: '#6c757d',
-  [EScheduleStatus.Rescheduled]: '#fd7e14',
-  [EScheduleStatus.WaitingRoom]: '#e83e8c',
-  [EScheduleStatus.FollowUp]: '#343a40',
+  [EScheduleStatus.Scheduled]: '#66b2ff',
+  [EScheduleStatus.Canceled]: '#f08080',
+  [EScheduleStatus.Completed]: '#85e085',
+  [EScheduleStatus.InProgress]: '#ffe680',
+  [EScheduleStatus.Confirmed]: '#5fd1e6',
+  [EScheduleStatus.NoShow]: '#adb5bd',
+  [EScheduleStatus.Rescheduled]: '#ffa868',
+  [EScheduleStatus.WaitingRoom]: '#ff7fbf',
+  [EScheduleStatus.FollowUp]: '#70757a',
 };

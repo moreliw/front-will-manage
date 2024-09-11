@@ -94,10 +94,10 @@
           "
         >
           <div
-            [class.status-scheduled]="schedule.status === 1"
-            [class.status-completed]="schedule.status === 3"
-            [class.status-canceled]="schedule.status === 2"
             class="status"
+            [ngStyle]="{
+              'background-color': getColorByStatus(schedule.status)
+            }"
           >
             {{ EScheduleStatusLabel[schedule.status] }}
           </div>

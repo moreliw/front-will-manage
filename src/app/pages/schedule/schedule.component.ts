@@ -3,6 +3,7 @@ import { ScheduleGrid } from '../../models/schedule';
 import { ScheduleService } from '../../service/schedule.service';
 import {
   EScheduleStatus,
+  EScheduleStatusColors,
   EScheduleStatusLabel,
 } from '../../models/Enum/EScheduleStatus';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -182,6 +183,10 @@ export class ScheduleComponent implements OnInit {
         );
       }
     });
+  }
+
+  getColorByStatus(status: EScheduleStatus): string {
+    return EScheduleStatusColors[status] || '#2c5aa0';
   }
 
   selecionarNumeroRegistros(value) {
