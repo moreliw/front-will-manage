@@ -19,7 +19,7 @@ import { ResponsibleFormComponent } from './pages/responsible/responsible-form/r
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/customers',
+    redirectTo: '/dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard],
   },
