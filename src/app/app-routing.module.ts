@@ -15,6 +15,8 @@ import { InventoryComponent } from './pages/inventory/inventory.component';
 import { InventoryHistoryComponent } from './pages/inventory/inventory-history/inventory-history.component';
 import { ResponsibleComponent } from './pages/responsible/responsible.component';
 import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
+import { PartnerComponent } from './pages/partner/partner.component';
+import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.component';
 
 const routes: Routes = [
   {
@@ -111,6 +113,22 @@ const routes: Routes = [
   {
     path: 'responsible/edit/:id',
     component: ResponsibleFormComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'partner',
+    component: PartnerComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'partner/new',
+    component: PartnerFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'partner/edit/:id',
+    component: PartnerFormComponent,
     canActivate: [AuthGuard],
   },
 ];

@@ -22,7 +22,6 @@ export class CustomerFormComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,
     private customerService: CustomersService,
     public util: UtilService,
     private location: Location

@@ -27,7 +27,6 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCustomers();
-    console.log(this.util.token());
   }
 
   loadCustomers() {
@@ -63,6 +62,7 @@ export class CustomerComponent implements OnInit {
     const data = {
       id: id,
       balance: balance,
+      partner: false,
     };
     const dialogRef = this.dialog.open(BalanceComponent, {
       width: '500px',

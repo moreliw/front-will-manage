@@ -41,6 +41,8 @@ import { SortButtonsComponent } from './components/sort-buttons/sort-buttons.com
 import { HistoryComponent } from './components/history/history.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { InfoScheduleComponent } from './components/info-schedule/info-schedule.component';
+import { PartnerComponent } from './pages/partner/partner.component';
+import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,8 @@ import { InfoScheduleComponent } from './components/info-schedule/info-schedule.
     HistoryComponent,
     CalendarComponent,
     InfoScheduleComponent,
+    PartnerComponent,
+    PartnerFormComponent,
   ],
   imports: [
     BrowserModule,
