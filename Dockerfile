@@ -8,8 +8,9 @@ RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 # Serve stage
 FROM nginx:alpine
-RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /app/dist/front-will-manage /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN apk add --no-cache gettext
-CMD sh -c "envsubst \"\\$PORT\" < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf.tmp && mv /etc/nginx/conf.d/default.conf.tmp /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\""
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+CMD ["/docker-entrypoint.sh"]
