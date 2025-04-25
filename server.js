@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+// Use Railway's PORT environment variable
 const port = process.env.PORT || 3000;
 
 const allowCors = (req, res, next) => {
@@ -28,12 +29,16 @@ app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/dist/front-will-manage"));
 
-// servir o index.html do angular
-
+// Handle all routes
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/dist/front-will-manage/index.html");
 });
 
-app.listen(port, async () => {
-  console.log(`API Gateway running in port ${port}!`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+  console.log(
+    `Public URL: ${
+      process.env.RAILWAY_PUBLIC_DOMAIN || "http://localhost:" + port
+    }`
+  );
 });

@@ -43,6 +43,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { InfoScheduleComponent } from './components/info-schedule/info-schedule.component';
 import { PartnerComponent } from './pages/partner/partner.component';
 import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.component';
+import { FinanceComponent } from './pages/finance/finance.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.
     InfoScheduleComponent,
     PartnerComponent,
     PartnerFormComponent,
+    FinanceComponent,
   ],
   imports: [
     BrowserModule,

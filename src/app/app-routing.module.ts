@@ -17,6 +17,7 @@ import { ResponsibleComponent } from './pages/responsible/responsible.component'
 import { ResponsibleFormComponent } from './pages/responsible/responsible-form/responsible-form.component';
 import { PartnerComponent } from './pages/partner/partner.component';
 import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.component';
+import { FinanceComponent } from './pages/finance/finance.component';
 
 const routes: Routes = [
   {
@@ -129,6 +130,12 @@ const routes: Routes = [
   {
     path: 'partner/edit/:id',
     component: PartnerFormComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'finance',
+    component: FinanceComponent,
     canActivate: [AuthGuard],
   },
 ];
