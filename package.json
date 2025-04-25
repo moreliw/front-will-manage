@@ -2,9 +2,9 @@
   "name": "front-will-manage",
   "version": "0.0.0",
   "scripts": {
-    "ng": "set NODE_OPTIONS=--openssl-legacy-provider && ng",
-    "start": "set NODE_OPTIONS=--openssl-legacy-provider && node server.js",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && ng build",
+    "ng": "NODE_OPTIONS=--openssl-legacy-provider ng",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node server.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
