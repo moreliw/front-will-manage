@@ -1,93 +1,449 @@
-<div class="container">
-  <div class="up d-flex">
-    <h2 class="title">Produtos</h2>
-    <a class="button-content" (click)="addProduct()">
-      <i class="material-symbols-outlined icon">add_circle</i>Produto
-    </a>
+<div class="product-page">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>Produtos</h1>
+      <p class="text-muted">Gerencie seu catálogo de produtos</p>
+    </div>
+    <button class="btn-primary" (click)="openProductModal()">
+      <span class="material-icons">add</span>
+      <span>Novo Produto</span>
+    </button>
   </div>
 
-  <div class="d-flex filters">
-    <div>
-      <label>Ordenar por:</label>
-      <app-sort-buttons
-        (sortOrderChanged)="onSortOrderChanged($event)"
-      ></app-sort-buttons>
-    </div>
+  <div class="dashboard-card filters-card">
+    <div class="card-content">
+      <div class="filters-grid">
+        <!-- Ordenação -->
+        <div class="filter-item order-filter">
+          <label>Ordenar por:</label>
+          <div class="sort-options">
+            <div class="sort-buttons">
+              <button 
+                [class.active]="currentSortOrder === 1" 
+                (click)="onSortOrderChanged(1)" 
+                class="sort-btn" 
+                title="Ordenar por código">
+                <span class="material-icons">sort</span>Código
+              </button>
+              <button 
+                [class.active]="currentSortOrder === 2" 
+                (click)="onSortOrderChanged(2)" 
+                class="sort-btn"
+                title="Ordenar por nome">
+                <span class="material-icons">sort_by_alpha</span>Nome
+              </button>
+            </div>
+          </div>
+        </div>
 
-    <div class="d-flex dashboard-item items-down">
-      <label></label>
-      <app-search (search)="onSearch($event)"></app-search>
-    </div>
-    <div class="group-input">
-      <label> Categoria </label>
-      <ng-select
-        [items]="categoryList"
-        bindLabel="name"
-        bindValue="id"
-        notFoundText="Nenhuma categoria encontrado"
-        class="custom-ng-select"
-        [(ngModel)]="categoryId"
-        (change)="filterByCategoryId()"
-      ></ng-select>
+        <!-- Busca -->
+        <div class="filter-item search-filter">
+          <label>Busca:</label>
+          <div class="search-field">
+            <span class="material-icons search-icon">search</span>
+            <input 
+              type="text" 
+              class="search-input" 
+              placeholder="Buscar produtos..."
+              [(ngModel)]="search"
+              (input)="onSearch(search)"
+            >
+            <button 
+              class="clear-search" 
+              *ngIf="search" 
+              (click)="search = ''; onSearch('')"
+              title="Limpar busca">
+              <span class="material-icons">close</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Categoria -->
+        <div class="filter-item category-filter">
+          <label>Categoria:</label>
+          <div class="select-container">
+            <ng-select
+              [items]="categoryList"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Todas as categorias"
+              clearAllText="Limpar"
+              notFoundText="Nenhuma categoria encontrada"
+              [(ngModel)]="categoryId"
+              (change)="filterByCategoryId()"
+              [clearable]="true"
+              [searchable]="true"
+              class="category-select"
+            ></ng-select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="filters-actions">
+        <div class="records-info" *ngIf="productList.length > 0">
+          <span class="material-icons">inventory_2</span>
+          <span>Total: <strong>{{ totalCount }}</strong> produtos</span>
+        </div>
+        <button class="btn-outlined" (click)="generatePdf()" title="Exportar para PDF">
+          <span class="material-icons">download</span>
+          <span>Exportar PDF</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="d-flex filters">
-    <span class="mt-5">Total de {{ totalCount }} registros</span>
-    <div class="d-flex dashboard-item items-down">
-      <a class="clean-filters" (click)="generatePdf()"> Gerar PDF </a>
+  <!-- Tabela de produtos para desktop -->
+  <div class="dashboard-card table-container" *ngIf="!loading">
+    <div class="table-responsive">
+      <table class="data-table products-table" *ngIf="productList.length > 0">
+        <thead>
+          <tr>
+            <th class="column-code">Código</th>
+            <th class="column-name">Nome</th>
+            <th class="column-category">Categoria</th>
+            <th class="column-price text-right">Custo</th>
+            <th class="column-price text-right">Venda</th>
+            <th class="column-quantity text-center">Estoque</th>
+            <th class="column-actions"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of productList" 
+              [class.selected]="product.id === selectedProductId"
+              (click)="onRowClick(product)">
+            <td class="column-code">{{ product.code || '-' }}</td>
+            <td class="column-name">
+              <div class="product-name">{{ product.name }}</div>
+              <small *ngIf="product.description" class="text-muted product-description">{{ product.description }}</small>
+            </td>
+            <td class="column-category">
+              <span class="category-badge">{{ product.category?.name || '-' }}</span>
+            </td>
+            <td class="column-price text-right">{{ util.toMoney(product.costPrice) }}</td>
+            <td class="column-price text-right">{{ util.toMoney(product.salePrice) }}</td>
+            <td class="column-quantity text-center" [ngClass]="getStockClass(product.quantity)">
+              {{ product.quantity }}
+            </td>
+            <td class="column-actions">
+              <div class="action-buttons">
+                <button class="btn-icon" (click)="openProductModal(product.id); $event.stopPropagation()" title="Editar produto">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button class="btn-icon btn-danger" (click)="deleteProduct(product.id); $event.stopPropagation()" title="Excluir produto">
+                  <span class="material-icons">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Estado vazio -->
+      <div class="empty-state" *ngIf="productList.length === 0 && !loading">
+        <div class="empty-state-container">
+          <div class="empty-icon">
+            <span class="material-icons">inventory_2</span>
+          </div>
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente ajustar os filtros ou adicione um novo produto</p>
+          <button class="btn-primary" (click)="openProductModal()">
+            <span class="material-icons">add</span>
+            <span>Novo Produto</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <table class="styled-table">
-    <thead>
-      <tr>
-        <th class="code-column">Código</th>
-        <th class="name-column">Nome</th>
-        <th class="category-column">Categoria</th>
-        <th class="value-column text-center">Custo</th>
-        <th class="value-column text-center">Venda</th>
+  <!-- Cards para visão mobile -->
+  <div class="product-cards" *ngIf="!loading">
+    <div class="product-card" *ngFor="let product of productList" (click)="onRowClick(product)">
+      <div class="product-card-header">
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <span class="category-badge">{{ product.category?.name || '-' }}</span>
+        </div>
+        <div class="product-code">
+          <span class="text-muted">Código: {{ product.code || '-' }}</span>
+        </div>
+      </div>
+      <div class="product-card-body">
+        <div class="product-description" *ngIf="product.description">
+          {{ product.description }}
+        </div>
+        <div class="product-details">
+          <div class="detail-group">
+            <span class="detail-label">Custo:</span>
+            <span class="detail-value">{{ util.toMoney(product.costPrice) }}</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-label">Venda:</span>
+            <span class="detail-value">{{ util.toMoney(product.salePrice) }}</span>
+          </div>
+          <div class="detail-group">
+            <span class="detail-label">Estoque:</span>
+            <span class="detail-value" [ngClass]="getStockClass(product.quantity)">{{ product.quantity }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="product-card-actions">
+        <button class="btn-icon" (click)="openProductModal(product.id); $event.stopPropagation()" title="Editar produto">
+          <span class="material-icons">edit</span>
+        </button>
+        <button class="btn-icon btn-danger" (click)="deleteProduct(product.id); $event.stopPropagation()" title="Excluir produto">
+          <span class="material-icons">delete</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Estado vazio para mobile -->
+    <div class="empty-state-mobile" *ngIf="productList.length === 0 && !loading">
+      <span class="material-icons">inventory_2</span>
+      <h3>Nenhum produto encontrado</h3>
+      <p>Tente ajustar os filtros ou adicione um novo produto</p>
+      <button class="btn-primary" (click)="openProductModal()">
+        <span class="material-icons">add</span>
+        <span>Novo Produto</span>
+      </button>
+    </div>
+  </div>
 
-        <th class="quantity-column text-center">Quantidade</th>
-        <th class="actions-column text-right"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let product of productList"
-        [class.selected]="product.id === selectedProductId"
-        (click)="onRowClick(product.id)"
-      >
-        <td class="code-column">{{ product.code ? product.code : "-" }}</td>
-        <td class="name-column">{{ product.name }}</td>
-        <td class="category-column">{{ product.category.name }}</td>
-        <td class="value-column text-center">
-          {{ util.toMoney(product.costPrice) }}
-        </td>
-        <td class="value-column text-center">
-          {{ util.toMoney(product.salePrice) }}
-        </td>
-        <td class="quantity-column text-center">{{ product.quantity }}</td>
-        <td class="actions-column text-right">
-          <a
-            class="material-symbols-outlined mr-2"
-            (click)="openEditProduct(product.id)"
-            >edit_square</a
-          >
-          <a
-            class="material-symbols-outlined"
-            (click)="deleteProduct(product.id)"
-            >delete</a
-          >
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Loader -->
+  <div class="loader-container" *ngIf="loading">
+    <div class="loader">
+      <div class="spinner-circular"></div>
+      <p>Carregando produtos...</p>
+    </div>
+  </div>
 
+  <!-- Paginação -->
   <app-pagination
+    *ngIf="productList.length > 0 && !loading"
     [currentPage]="currentPage"
     [totalPages]="getTotalPages()"
     (pageChange)="pageCallback($event)"
+    class="pagination-container"
   ></app-pagination>
 </div>
-<app-loading *ngIf="loading"></app-loading>
+
+<!-- Modal de produto -->
+<div class="product-modal-overlay" *ngIf="isModalOpen">
+  <div class="product-modal-container">
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Editar Produto' : 'Novo Produto' }}</h2>
+      <button class="btn-icon" (click)="closeModalCompletely()" aria-label="Fechar">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <form [formGroup]="productForm" class="modal-form">
+        <!-- Informações Básicas -->
+        <div class="form-section">
+          <h3 class="section-title">Informações Básicas</h3>
+          
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label for="code">Código</label>
+              <input 
+                type="number" 
+                id="code" 
+                class="form-control" 
+                formControlName="code"
+                placeholder="Código do produto"
+                max="999999999" 
+              />
+              <small class="form-hint">Opcional: Use para referência interna</small>
+            </div>
+            
+            <div class="form-group col-sm-8">
+              <label for="name">Nome <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="name" 
+                class="form-control" 
+                formControlName="name"
+                placeholder="Nome do produto" 
+              />
+              <div class="error-message" *ngIf="productForm.controls['name'].invalid && productForm.controls['name'].touched">
+                <span *ngIf="productForm.controls['name'].errors?.required">Nome é obrigatório</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label for="categoryId">Categoria <span class="required">*</span></label>
+              
+              <div class="category-input-container">
+                <ng-select
+                  id="categoryId"
+                  [items]="categoryList"
+                  bindLabel="name"
+                  bindValue="id"
+                  placeholder="Selecionar categoria"
+                  formControlName="categoryId"
+                  [clearable]="false"
+                  notFoundText="Nenhuma categoria encontrada"
+                  [loading]="loadingCategories"
+                  (click)="loadCategories()"
+                  class="category-select"
+                  [ngClass]="{'has-add-button': !showNewCategoryForm}"
+                >
+                </ng-select>
+                
+                <button 
+                  type="button" 
+                  class="btn-add-category" 
+                  *ngIf="!showNewCategoryForm"
+                  (click)="toggleNewCategoryForm()" 
+                  aria-label="Adicionar nova categoria"
+                  title="Adicionar nova categoria"
+                >
+                  <span class="material-icons">add</span>
+                </button>
+              </div>
+              
+              <div class="error-message" *ngIf="productForm.controls['categoryId'].invalid && productForm.controls['categoryId'].touched">
+                <span *ngIf="productForm.controls['categoryId'].errors?.required">Categoria é obrigatória</span>
+              </div>
+              
+              <!-- Formulário para Nova Categoria -->
+              <div class="new-category-form" *ngIf="showNewCategoryForm">
+                <div class="new-category-header">
+                  <h4>Nova Categoria</h4>
+                  <button type="button" class="btn-icon" (click)="toggleNewCategoryForm()">
+                    <span class="material-icons">close</span>
+                  </button>
+                </div>
+                
+                <div class="form-group">
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    [(ngModel)]="newCategoryName" 
+                    [ngModelOptions]="{standalone: true}"
+                    placeholder="Nome da categoria" 
+                  />
+                </div>
+                
+                <div class="new-category-actions">
+                  <button 
+                    type="button" 
+                    class="btn-secondary btn-sm" 
+                    (click)="toggleNewCategoryForm()"
+                  >
+                    Cancelar
+                  </button>
+                  <button 
+                    type="button" 
+                    class="btn-primary btn-sm" 
+                    [disabled]="!newCategoryName || newCategoryName.trim() === ''" 
+                    (click)="createNewCategory()"
+                  >
+                    <span *ngIf="!loadingNewCategory">Adicionar</span>
+                    <div class="spinner spinner-sm" *ngIf="loadingNewCategory"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-6">
+              <label for="description">Descrição</label>
+              <textarea 
+                id="description" 
+                class="form-control" 
+                formControlName="description"
+                placeholder="Descrição do produto"
+                rows="2"
+              ></textarea>
+              <small class="form-hint">Detalhes adicionais do produto</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Preços e Estoque -->
+        <div class="form-section">
+          <h3 class="section-title">Preços e Estoque</h3>
+          
+          <div class="form-row">
+            <div class="form-group col-sm-3">
+              <label for="costPrice">Preço de custo</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">R$</span>
+                <input 
+                  type="number" 
+                  id="costPrice" 
+                  class="form-control" 
+                  formControlName="costPrice"
+                  step="0.01"
+                  placeholder="0,00"
+                />
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-3">
+              <label for="salePrice">Preço de venda</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">R$</span>
+                <input 
+                  type="number" 
+                  id="salePrice" 
+                  class="form-control" 
+                  formControlName="salePrice"
+                  step="0.01"
+                  placeholder="0,00"
+                />
+              </div>
+              <div class="profit-indicator" *ngIf="showProfitMargin()">
+                <span [ngClass]="getProfitMarginClass()">
+                  {{ calculateProfitMargin() }}% de margem
+                </span>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-3">
+              <label for="quantity">Quantidade</label>
+              <input 
+                type="number" 
+                id="quantity" 
+                class="form-control" 
+                formControlName="quantity"
+                placeholder="0"
+              />
+            </div>
+            
+            <div class="form-group col-sm-3">
+              <label for="unity">Unidades</label>
+              <input 
+                type="number" 
+                id="unity" 
+                class="form-control" 
+                formControlName="unity"
+                placeholder="0"
+              />
+              <small class="form-hint">Qtd. por embalagem</small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="closeModalCompletely()">
+          Cancelar
+        </button>
+        <button 
+          class="btn-primary" 
+          [disabled]="productForm.invalid || loading" 
+          (click)="saveProduct()"
+        >
+          <span class="material-icons">{{ isEditMode ? 'save' : 'add_circle' }}</span>
+          <span *ngIf="!loading">{{ isEditMode ? 'Salvar alterações' : 'Adicionar produto' }}</span>
+          <div class="spinner" *ngIf="loading"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

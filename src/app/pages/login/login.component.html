@@ -16,39 +16,88 @@
   <button type="submit">Login</button>
 </form> -->
 
-<div class="container">
-  <div class="screen">
-    <div class="screen__content">
-      <div class="align-button" style="margin-top: 4rem">
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
         <h1>Will Manage</h1>
       </div>
-      <form class="login" (ngSubmit)="onSubmit()">
-        <div class="login__field">
-          <input
-            type="text"
-            [(ngModel)]="username"
+      <h2>Login</h2>
+      <p class="login-subtitle">Bem-vindo de volta! Faça login para acessar seu painel.</p>
+    </div>
+    
+    <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <span class="material-icons input-icon">email</span>
+          <input 
+            type="email" 
+            id="email"
+            class="form-input" 
+            placeholder="Seu email"
+            [(ngModel)]="username" 
             name="username"
-            class="login__input"
-            placeholder="Email"
-          />
+            required
+            email
+            #emailInput="ngModel">
         </div>
-        <div class="login__field">
-          <input
-            type="password"
-            [(ngModel)]="password"
+        <div class="error-message" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+          <span *ngIf="emailInput.errors?.required">Email é obrigatório</span>
+          <span *ngIf="emailInput.errors?.email">Email inválido</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <div class="input-wrapper">
+          <span class="material-icons input-icon">lock</span>
+          <input 
+            [type]="hidePassword ? 'password' : 'text'" 
+            id="password"
+            class="form-input" 
+            placeholder="Sua senha"
+            [(ngModel)]="password" 
             name="password"
-            class="login__input"
-            placeholder="Senha"
-          />
+            required
+            minlength="4"
+            #passwordInput="ngModel">
+          <span class="material-icons password-toggle" (click)="togglePasswordVisibility()">
+            {{hidePassword ? 'visibility' : 'visibility_off'}}
+          </span>
         </div>
-        <div class="align-button">
-          <button class="button login__submit" type="submit">
-            <span class="button__text">Entrar</span>
-            <i class="button__icon fas fa-chevron-right"></i>
-          </button>
+        <div class="error-message" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+          <span *ngIf="passwordInput.errors?.required">Senha é obrigatória</span>
+          <span *ngIf="passwordInput.errors?.minlength">Senha deve ter pelo menos 4 caracteres</span>
         </div>
-      </form>
+      </div>
+      
+      <div class="form-group remember-forgot">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember" [(ngModel)]="rememberMe">
+          <label for="remember">Lembrar-me</label>
+        </div>
+        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+      </div>
+      
+      <div class="error-container" *ngIf="errorMessage">
+        <div class="login-error">
+          <span class="material-icons error-icon">error</span>
+          <span>{{errorMessage}}</span>
+        </div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="login-button" 
+        [disabled]="!loginForm.form.valid || loading">
+        <span *ngIf="!loading">Entrar</span>
+        <div class="spinner" *ngIf="loading"></div>
+      </button>
+    </form>
+    
+    <div class="login-footer">
+      <p>© 2023 Will Manage. Todos os direitos reservados.</p>
     </div>
   </div>
 </div>
-<app-loading *ngIf="loading"></app-loading>

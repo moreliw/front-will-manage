@@ -10,7 +10,6 @@ import { ScheduleFormComponent } from './pages/schedule/schedule-form/schedule-f
 import { CategoryComponent } from './pages/category/category.component';
 import { CategoryFormComponent } from './pages/category/category-form/category-form.component';
 import { ProductComponent } from './pages/product/product.component';
-import { ProductFormComponent } from './pages/product/product-form/product-form.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { InventoryHistoryComponent } from './pages/inventory/inventory-history/inventory-history.component';
 import { ResponsibleComponent } from './pages/responsible/responsible.component';
@@ -79,16 +78,6 @@ const routes: Routes = [
   },
 
   { path: 'product', component: ProductComponent, canActivate: [AuthGuard] },
-  {
-    path: 'product/new',
-    component: ProductFormComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'product/edit/:id',
-    component: ProductFormComponent,
-    canActivate: [AuthGuard],
-  },
   {
     path: 'inventory',
     component: InventoryComponent,

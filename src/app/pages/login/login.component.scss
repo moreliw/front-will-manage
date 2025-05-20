@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
 
+// Variáveis
+$primary-color: #1e88e5; // Azul moderno
+$primary-dark: #1565c0;
+$primary-light: #e3f2fd;
+$secondary-color: #f5f5f5;
+$text-color: #333;
+$text-secondary: #666;
+$error-color: #f44336;
+$success-color: #4caf50;
+$border-radius: 8px;
+$box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+$transition: all 0.3s ease;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -142,4 +155,301 @@ h1 {
 
 .social-login__icon:hover {
   transform: scale(1.5);
+}
+
+// Container principal
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+// Card de login
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: $primary-color;
+  }
+}
+
+// Cabeçalho
+.login-header {
+  padding: 30px 30px 20px;
+  text-align: center;
+  
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: $primary-color;
+    margin-bottom: 8px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: $text-color;
+    margin-bottom: 10px;
+  }
+  
+  .login-subtitle {
+    color: $text-secondary;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+}
+
+// Logo
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+// Formulário
+.login-form {
+  padding: 0 30px 30px;
+}
+
+// Grupos de formulário
+.form-group {
+  margin-bottom: 20px;
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: $text-color;
+    font-size: 14px;
+  }
+}
+
+// Wrapper para inputs com ícones
+.input-wrapper {
+  position: relative;
+  
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-secondary;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-secondary;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+// Estilo dos inputs
+.form-input {
+  width: 100%;
+  padding: 12px 12px 12px 42px;
+  border: 1px solid #ddd;
+  border-radius: $border-radius;
+  font-size: 15px;
+  color: $text-color;
+  transition: $transition;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+  }
+  
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+// Input para senha (com toggle de visibilidade)
+input[type="password"] {
+  padding-right: 42px;
+}
+
+// Mensagens de erro
+.error-message {
+  color: $error-color;
+  font-size: 12px;
+  margin-top: 5px;
+  
+  span {
+    display: block;
+    line-height: 1.4;
+  }
+}
+
+// Lembrar-me e esqueceu a senha
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    
+    input[type="checkbox"] {
+      margin-right: 8px;
+      accent-color: $primary-color;
+      width: 16px;
+      height: 16px;
+    }
+    
+    label {
+      margin-bottom: 0;
+      font-size: 13px;
+      color: $text-secondary;
+      cursor: pointer;
+    }
+  }
+  
+  .forgot-password {
+    font-size: 13px;
+    color: $primary-color;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Botão de login
+.login-button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $transition;
+  position: relative;
+  
+  &:hover {
+    background-color: $primary-dark;
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+// Container de erro
+.error-container {
+  margin-top: 15px;
+}
+
+// Mensagem de erro de login
+.login-error {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: rgba($error-color, 0.1);
+  border-radius: $border-radius;
+  
+  .error-icon {
+    color: $error-color;
+    margin-right: 8px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+  }
+  
+  span {
+    color: $error-color;
+    font-size: 13px;
+  }
+}
+
+// Spinner para loading
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Footer
+.login-footer {
+  padding: 16px 30px;
+  background-color: $secondary-color;
+  border-top: 1px solid #eee;
+  text-align: center;
+  
+  p {
+    font-size: 12px;
+    color: $text-secondary;
+    margin: 0;
+  }
+}
+
+// Responsivo
+@media (max-width: 480px) {
+  .login-card {
+    max-width: 100%;
+  }
+  
+  .login-header {
+    padding: 25px 20px 15px;
+  }
+  
+  .login-form {
+    padding: 0 20px 25px;
+  }
+  
+  .form-input {
+    padding: 10px 10px 10px 38px;
+  }
+  
+  .input-wrapper .input-icon,
+  .input-wrapper .password-toggle {
+    font-size: 18px;
+  }
 }

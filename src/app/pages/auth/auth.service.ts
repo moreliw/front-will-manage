@@ -9,7 +9,8 @@ import { environment } from 'src/environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-  }),
+    'Accept': '*/*'
+  })
 };
 
 @Injectable({
@@ -17,11 +18,12 @@ const httpOptions = {
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(login: LoginModel) {
+  login(login: LoginModel): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}/account/login`,
+      `${this.apiUrl}/Account/login`,
       login,
       httpOptions
     );
@@ -57,13 +59,17 @@ export class AuthService {
 
   public GetLocalAuthorizationData(): AuthorizationData {
     const authorizationDataString = localStorage.getItem('authorizationData');
+    if (!authorizationDataString) {
+      return null;
+    }
+    
     const authorizationData = JSON.parse(
       authorizationDataString
     ) as AuthorizationData;
 
     return authorizationData;
   }
-
+  
   logout() {
     this.clearLocalStorage();
     this.router.navigate(['/login']);

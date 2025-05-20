@@ -1,28 +1,45 @@
-<div class="wrapper">
-  <aside id="sidebar" (click)="toggle()">
-    <div class="d-flex">
-      <button class="toggle-btn" type="button">
-        <i class="material-symbols-outlined"> dashboard</i>
+<div class="sidebar-wrapper">
+  <aside id="sidebar" [class.expanded]="isExpanded">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <a class="sidebar-logo">
+          <i class="material-icons brand-icon">supervisor_account</i>
+          <span class="brand-text">Will Manage</span>
+        </a>
+      </div>
+      <button class="toggle-btn" type="button" (click)="toggle($event)">
+        <i class="material-icons">{{ isExpanded ? 'chevron_left' : 'chevron_right' }}</i>
       </button>
-      <div class="sidebar-logo">
-        <a>Will Manage</a>
+    </div>
+    
+    <div class="sidebar-user" *ngIf="isExpanded">
+      <div class="user-avatar">
+        <span>{{ getUserInitials() }}</span>
+      </div>
+      <div class="user-info">
+        <h5>{{ userName }}</h5>
+        <span>{{ userRole }}</span>
       </div>
     </div>
+    
     <ul class="sidebar-nav" *ngIf="routes.length > 0">
       <div *ngFor="let route of routes">
-        <li class="sidebar-item" (click)="goTo(route.description, $event)">
+        <li class="sidebar-item" [class.active]="currentRoute === route.description" (click)="goTo(route.description, $event)">
           <a class="sidebar-link">
-            <i class="material-symbols-outlined"> {{ route.icon }} </i>
+            <i class="material-icons">{{ route.icon }}</i>
             <span>{{ route.name }}</span>
           </a>
         </li>
       </div>
     </ul>
-    <div class="sidebar-footer" (click)="logout()">
-      <a class="sidebar-link">
-        <i class="material-symbols-outlined"> logout</i>
+    
+    <div class="sidebar-footer">
+      <a class="sidebar-link logout-link" (click)="logout($event)">
+        <i class="material-icons">logout</i>
         <span>Sair</span>
       </a>
     </div>
   </aside>
+  
+  <div class="content-overlay" [class.active]="isExpanded && isMobile" (click)="closeOnMobile($event)"></div>
 </div>

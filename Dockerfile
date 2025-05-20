@@ -7,10 +7,16 @@ COPY . .
 RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 # Serve stage
-FROM nginx:alpine
-COPY --from=builder /app/dist/front-will-manage /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/server.js ./
+COPY --from=builder /app/package*.json ./
 
-CMD ["/docker-entrypoint.sh"]
+# Instala apenas dependências de produção
+RUN npm ci --omit=dev
+
+EXPOSE 8080
+ENV PORT=8080
+
+CMD ["node", "server.js"]
