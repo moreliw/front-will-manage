@@ -1,0 +1,56 @@
+<div class="tenant-selector-container">
+  <div class="tenant-selector-card">
+    <h1>Seleção de Tenant</h1>
+    <p class="subtitle">Selecione a empresa para continuar</p>
+
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Carregando empresas...</p>
+    </div>
+
+    <div *ngIf="!loading && error" class="error-container">
+      <p class="error-message">{{ error }}</p>
+      <button class="btn btn-primary" (click)="tryAgain()">Tentar Novamente</button>
+    </div>
+
+    <div *ngIf="!loading && !error && tenants.length === 0" class="empty-container">
+      <p>Nenhuma empresa disponível para este usuário.</p>
+      <button class="btn btn-danger" (click)="logout()">Sair</button>
+    </div>
+
+    <div *ngIf="!loading && !error && tenants.length > 0" class="tenants-list">
+      <div 
+        *ngFor="let tenant of tenants" 
+        class="tenant-item"
+        [class.active]="currentTenant?.id === tenant.id"
+        (click)="selectTenant(tenant)"
+      >
+        <div class="tenant-name">{{ tenant.name }}</div>
+        <div class="tenant-id">ID: {{ tenant.id }}</div>
+        <div class="tenant-status" *ngIf="tenant.active !== undefined">
+          <span class="status-badge" [class.active]="tenant.active">
+            {{ tenant.active ? 'Ativo' : 'Inativo' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="debug-info">
+      <h3>Informações de Debug</h3>
+      <div class="debug-item">
+        <strong>API URL:</strong> {{ environment.apiUrl }}
+      </div>
+      <div class="debug-item">
+        <strong>Token JWT:</strong> {{ authService.getToken() ? 'Presente' : 'Nenhum' }}
+      </div>
+      <div class="debug-item">
+        <strong>Current Tenant:</strong> {{ currentTenant ? currentTenant.name : 'Nenhum' }}
+      </div>
+      <div class="debug-item">
+        <strong>Tenants Carregados:</strong> {{ tenants.length }}
+      </div>
+
+      <button class="btn btn-outline-secondary mt-3" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

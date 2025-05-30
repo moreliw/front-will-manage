@@ -1,0 +1,137 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ viewMode ? 'Histórico e Nova Transação' : 'Nova Transação de Estoque' }}</h2>
+    </div>
+    <div class="card-body">
+      <!-- Formulário de transação -->
+      <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="productId" class="form-label">Produto*</label>
+            <select 
+              class="form-select" 
+              id="productId" 
+              formControlName="productId"
+              [ngClass]="{'is-invalid': transactionForm.get('productId')?.invalid && transactionForm.get('productId')?.touched}"
+              [disabled]="viewMode"
+            >
+              <option value="" disabled>Selecione um produto</option>
+              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="transactionForm.get('productId')?.errors?.['required']">
+              Produto é obrigatório
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="type" class="form-label">Tipo de Transação*</label>
+            <select 
+              class="form-select" 
+              id="type" 
+              formControlName="type"
+              [ngClass]="{'is-invalid': transactionForm.get('type')?.invalid && transactionForm.get('type')?.touched}"
+            >
+              <option *ngFor="let type of transactionTypes" [value]="type.id">{{ type.name }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="transactionForm.get('type')?.errors?.['required']">
+              Tipo de transação é obrigatório
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="quantity" class="form-label">Quantidade*</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="quantity" 
+              formControlName="quantity"
+              [ngClass]="{'is-invalid': transactionForm.get('quantity')?.invalid && transactionForm.get('quantity')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="transactionForm.get('quantity')?.errors?.['required']">
+              Quantidade é obrigatória
+            </div>
+            <div class="invalid-feedback" *ngIf="transactionForm.get('quantity')?.errors?.['min']">
+              Quantidade deve ser maior que zero
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="date" class="form-label">Data*</label>
+            <input 
+              type="date" 
+              class="form-control" 
+              id="date" 
+              formControlName="date"
+              [ngClass]="{'is-invalid': transactionForm.get('date')?.invalid && transactionForm.get('date')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="transactionForm.get('date')?.errors?.['required']">
+              Data é obrigatória
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="notes" class="form-label">Observações</label>
+          <textarea 
+            class="form-control" 
+            id="notes" 
+            formControlName="notes"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            Salvar Transação
+          </button>
+        </div>
+      </form>
+
+      <!-- Lista de transações (visível apenas em modo de visualização) -->
+      <div *ngIf="viewMode" class="mt-5">
+        <h3>Histórico de Transações</h3>
+        
+        <div *ngIf="loading" class="text-center my-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+        </div>
+
+        <div class="table-responsive" *ngIf="!loading">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Quantidade</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of transactions">
+                <td>{{ transaction.date | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <span [ngClass]="getTypeClass(transaction.type)">
+                    {{ getTypeLabel(transaction.type) }}
+                  </span>
+                </td>
+                <td>{{ transaction.quantity }}</td>
+                <td>{{ transaction.notes }}</td>
+              </tr>
+              <tr *ngIf="transactions.length === 0">
+                <td colspan="4" class="text-center py-3">
+                  Nenhuma transação encontrada para este produto
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

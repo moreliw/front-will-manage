@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Produtos</h2>
+    <button class="btn btn-primary" (click)="createProduct()">
+      <i class="bi bi-plus"></i> Novo Produto
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Estoque</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products">
+              <td>{{ product.name }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.price | currency:'BRL' }}</td>
+              <td>{{ product.stock }}</td>
+              <td>
+                <button class="btn btn-sm btn-primary me-2" (click)="editProduct(product.id)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="products.length === 0">
+              <td colspan="5" class="text-center py-3">
+                Nenhum produto encontrado
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> 

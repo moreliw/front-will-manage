@@ -1,77 +1,137 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthorizationData } from '../../models/authorization-data';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { LoginModel } from 'src/app/models/login';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
+import { TenantService, TenantInfo } from '../../service/tenant.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': '*/*'
-  })
-};
+// Interface ideal para a resposta de autenticação
+export interface AuthResponse {
+  token: string;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+  };
+  tenant?: TenantInfo;
+}
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl;
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private tenantService: TenantService
+  ) {
+    console.log('AuthService inicializado');
+    console.log('Token existente:', this.hasToken());
+  }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  login(email: string, password: string, tenantIdentifier?: string): Observable<AuthResponse> {
+    console.log('Tentando login para:', email);
+    
+    const loginData: any = { 
+      Email: email, 
+      Password: password
+    };
+    
+    if (tenantIdentifier) {
+      loginData.TenantIdentifier = tenantIdentifier;
+    }
+    
+    console.log('Enviando dados de login:', loginData);
+    
+    // ALTERADO: endpoint correto para login
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/Account/login`, loginData)
+      .pipe(
+        tap(response => {
+          console.log('Resposta do login:', response);
+          
+          if (!response || !response.token) {
+            console.error('Resposta inválida do servidor - token ausente');
+            throw new Error('Resposta inválida do servidor');
+          }
+          
+          console.log('Login bem-sucedido');
+          this.setSession(response);
+          this.isAuthenticatedSubject.next(true);
+          
+          // Se a API retornar informações do tenant, salvar automaticamente
+          if (response.tenant) {
+            console.log('Tenant recebido do backend:', response.tenant);
+            this.tenantService.selectTenant(response.tenant);
+          }
+        }),
+        switchMap(response => {
+          // Se não tiver tenant na resposta, tentar buscar o tenant default do usuário
+          if (!response.tenant) {
+            console.log('Buscando tenant default do usuário');
+            return this.tenantService.getDefaultTenant().pipe(
+              tap(tenant => {
+                if (tenant) {
+                  console.log('Tenant default encontrado:', tenant);
+                  this.tenantService.selectTenant(tenant);
+                }
+              }),
+              map(() => response)
+            );
+          }
+          return of(response);
+        }),
+        catchError(error => {
+          console.error('Erro no login:', error);
+          throw error;
+        })
+      );
+  }
 
-  login(login: LoginModel): Observable<any> {
-    return this.http.post<any>(
-      `${this.apiUrl}/Account/login`,
-      login,
-      httpOptions
-    );
+  logout(): void {
+    console.log('Fazendo logout');
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_id');
+    this.tenantService.clearCurrentTenant();
+    this.isAuthenticatedSubject.next(false);
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem('accessToken') !== null;
+    return this.hasToken();
   }
 
-  public SaveLocalAuthorizationData(token: AuthorizationData) {
-    localStorage.setItem('authorizationData', JSON.stringify(token));
+  getUserId(): string | null {
+    return localStorage.getItem('user_id');
   }
 
-  refreshToken(
-    login: string,
-    refreshToken: string
-  ): Observable<AuthorizationData> {
-    const auth = {
-      login: login,
-      refreshToken: refreshToken,
-    };
-    return this.http.post<AuthorizationData>(
-      this.apiUrl + '/auth/RefreshToken',
-      auth,
-      httpOptions
-    );
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
   }
 
-  public clearLocalStorage() {
-    localStorage.removeItem('authorizationData');
-    localStorage.removeItem('accessToken');
-  }
-
-  public GetLocalAuthorizationData(): AuthorizationData {
-    const authorizationDataString = localStorage.getItem('authorizationData');
-    if (!authorizationDataString) {
-      return null;
+  private setSession(authResult: any): void {
+    // Garantir que salva o token independente do formato da resposta
+    if (typeof authResult === 'object') {
+      // Se for objeto com token
+      if (authResult.token) {
+        localStorage.setItem('auth_token', authResult.token);
+      } 
+      // Se a resposta for apenas o token string
+      else if (typeof authResult === 'string') {
+        localStorage.setItem('auth_token', authResult);
+      }
+      
+      // Salvar user_id apenas se vier no payload
+      if (authResult.user && authResult.user.id) {
+        localStorage.setItem('user_id', authResult.user.id);
+      }
     }
-    
-    const authorizationData = JSON.parse(
-      authorizationDataString
-    ) as AuthorizationData;
-
-    return authorizationData;
   }
-  
-  logout() {
-    this.clearLocalStorage();
-    this.router.navigate(['/login']);
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('auth_token');
   }
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TenantService, TenantInfo } from '../../service/tenant.service';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../pages/auth/auth.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-test-dashboard',
+  templateUrl: './test-dashboard.component.html',
+  styleUrls: ['./test-dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class TestDashboardComponent implements OnInit {
   loading = false;
   error = '';
   currentTenant: TenantInfo | null = null;
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Inicializando Dashboard');
+    console.log('Inicializando TestDashboard');
     
     // Verificar se está autenticado
     this.isAuthenticated = this.authService.isLoggedIn();
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
       return;
     }
     
-    console.log('Dashboard inicializado com sucesso');
+    console.log('Dashboard de teste inicializado com sucesso');
   }
 
   logout(): void {
@@ -57,4 +57,4 @@ export class DashboardComponent implements OnInit {
     console.log('Navegando para seleção de tenant');
     this.router.navigate(['/select-tenant']);
   }
-} 
+}

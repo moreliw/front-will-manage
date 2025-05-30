@@ -16,88 +16,57 @@
   <button type="submit">Login</button>
 </form> -->
 
-<div class="login-container">
-  <div class="login-card">
-    <div class="login-header">
-      <div class="logo-container">
-        <h1>Will Manage</h1>
-      </div>
-      <h2>Login</h2>
-      <p class="login-subtitle">Bem-vindo de volta! Faça login para acessar seu painel.</p>
-    </div>
-    
-    <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <div class="input-wrapper">
-          <span class="material-icons input-icon">email</span>
-          <input 
-            type="email" 
-            id="email"
-            class="form-input" 
-            placeholder="Seu email"
-            [(ngModel)]="username" 
-            name="username"
-            required
-            email
-            #emailInput="ngModel">
-        </div>
-        <div class="error-message" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
-          <span *ngIf="emailInput.errors?.required">Email é obrigatório</span>
-          <span *ngIf="emailInput.errors?.email">Email inválido</span>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="password">Senha</label>
-        <div class="input-wrapper">
-          <span class="material-icons input-icon">lock</span>
-          <input 
-            [type]="hidePassword ? 'password' : 'text'" 
-            id="password"
-            class="form-input" 
-            placeholder="Sua senha"
-            [(ngModel)]="password" 
-            name="password"
-            required
-            minlength="4"
-            #passwordInput="ngModel">
-          <span class="material-icons password-toggle" (click)="togglePasswordVisibility()">
-            {{hidePassword ? 'visibility' : 'visibility_off'}}
-          </span>
-        </div>
-        <div class="error-message" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
-          <span *ngIf="passwordInput.errors?.required">Senha é obrigatória</span>
-          <span *ngIf="passwordInput.errors?.minlength">Senha deve ter pelo menos 4 caracteres</span>
+<div class="container">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 d-flex justify-content-center">
+      <div class="login-card-fix card shadow">
+        <div class="card-body p-4">
+          <h2 class="text-center mb-4">Login</h2>
+          
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="username" class="form-label">Usuário</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="username" 
+                formControlName="username"
+                [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && loginForm.get('username')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="loginForm.get('username')?.errors?.['required']">
+                Usuário é obrigatório
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Senha</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password" 
+                formControlName="password"
+                [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors?.['required']">
+                Senha é obrigatória
+              </div>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="error">
+              {{ error }}
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100" 
+              [disabled]="loading"
+            >
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+              Entrar
+            </button>
+          </form>
         </div>
       </div>
-      
-      <div class="form-group remember-forgot">
-        <div class="remember-me">
-          <input type="checkbox" id="remember" name="remember" [(ngModel)]="rememberMe">
-          <label for="remember">Lembrar-me</label>
-        </div>
-        <a href="#" class="forgot-password">Esqueceu a senha?</a>
-      </div>
-      
-      <div class="error-container" *ngIf="errorMessage">
-        <div class="login-error">
-          <span class="material-icons error-icon">error</span>
-          <span>{{errorMessage}}</span>
-        </div>
-      </div>
-      
-      <button 
-        type="submit" 
-        class="login-button" 
-        [disabled]="!loginForm.form.valid || loading">
-        <span *ngIf="!loading">Entrar</span>
-        <div class="spinner" *ngIf="loading"></div>
-      </button>
-    </form>
-    
-    <div class="login-footer">
-      <p>© 2023 Will Manage. Todos os direitos reservados.</p>
     </div>
   </div>
 </div>

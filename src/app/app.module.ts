@@ -8,6 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -19,7 +21,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { BalanceComponent } from './components/balance/balance.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { ScheduleFormComponent } from './pages/schedule/schedule-form/schedule-form.component';
-import { AuthInterceptor } from './pages/auth/auth-interceptor.service';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { TenantInterceptor } from './core/interceptors/tenant.interceptor';
 import { ProcedureComponent } from './components/procedure/procedure.component';
 import { CheckComponent } from './components/check/check.component';
 import { CategoryComponent } from './pages/category/category.component';
@@ -32,7 +35,6 @@ import { SearchComponent } from './components/search/search.component';
 import { InventoryControlComponent } from './components/inventory-control/inventory-control.component';
 import { InventoryListControlComponent } from './components/inventory-list-control/inventory-list-control.component';
 import { UpdateStatusScheduleComponent } from './components/update-status-schedule/update-status-schedule.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { AddCustomerComponent } from './components/add-customer/add-customer.component';
 import { ResponsibleComponent } from './pages/responsible/responsible.component';
@@ -44,6 +46,14 @@ import { InfoScheduleComponent } from './components/info-schedule/info-schedule.
 import { PartnerComponent } from './pages/partner/partner.component';
 import { PartnerFormComponent } from './pages/partner/partner-form/partner-form.component';
 import { FinanceComponent } from './pages/finance/finance.component';
+import { TenantSelectorComponent } from './components/tenant-selector/tenant-selector.component';
+import { TestDashboardComponent } from './pages/test-dashboard/test-dashboard.component';
+
+// Services
+import { AuthService } from './core/services/auth.service';
+import { ProductService } from './core/services/product.service';
+import { ProductCategoryService } from './core/services/product-category.service';
+import { InventoryService } from './core/services/inventory.service';
 
 @NgModule({
   declarations: [
@@ -80,6 +90,8 @@ import { FinanceComponent } from './pages/finance/finance.component';
     PartnerComponent,
     PartnerFormComponent,
     FinanceComponent,
+    TenantSelectorComponent,
+    TestDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -93,10 +105,19 @@ import { FinanceComponent } from './pages/finance/finance.component';
     MatDialogModule,
     NgSelectModule,
     MatPaginatorModule,
+    RouterModule
   ],
   providers: [
+    // Services
+    AuthService,
+    ProductService,
+    ProductCategoryService,
+    InventoryService,
+    
+    // Interceptors
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TenantInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

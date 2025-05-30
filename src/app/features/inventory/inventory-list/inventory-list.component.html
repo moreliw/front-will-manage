@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Inventário</h2>
+    <button class="btn btn-primary" (click)="addTransaction()">
+      <i class="bi bi-plus"></i> Nova Transação
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Categoria</th>
+              <th>Estoque Atual</th>
+              <th>Estoque Mínimo</th>
+              <th>Status</th>
+              <th>Última Atualização</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of inventoryItems">
+              <td>{{ item.product }}</td>
+              <td>{{ item.category }}</td>
+              <td>{{ item.stock }}</td>
+              <td>{{ item.minStock }}</td>
+              <td>
+                <span class="badge" [ngClass]="{'bg-success': item.stock > item.minStock, 'bg-warning': item.stock === item.minStock, 'bg-danger': item.stock < item.minStock}">
+                  {{ item.stock > item.minStock ? 'Normal' : (item.stock === item.minStock ? 'Alerta' : 'Baixo') }}
+                </span>
+              </td>
+              <td>{{ item.lastUpdate | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="adjustStock(item.id)" title="Ajustar Estoque">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-info" (click)="viewTransactions(item.id)" title="Ver Histórico">
+                  <i class="bi bi-clock-history"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="inventoryItems.length === 0">
+              <td colspan="7" class="text-center py-3">
+                Nenhum item no inventário
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,174 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditMode ? 'Editar' : 'Novo' }} Produto</h2>
+    </div>
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Carregando...</span>
+        </div>
+      </div>
+
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label">Nome*</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="name" 
+              formControlName="name"
+              [ngClass]="{'is-invalid': productForm.get('name')?.invalid && productForm.get('name')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="productForm.get('name')?.errors?.['required']">
+              Nome é obrigatório
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="categoryId" class="form-label">Categoria*</label>
+            <select 
+              class="form-select" 
+              id="categoryId" 
+              formControlName="categoryId"
+              [ngClass]="{'is-invalid': productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched}"
+            >
+              <option value="" disabled>Selecione uma categoria</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="productForm.get('categoryId')?.errors?.['required']">
+              Categoria é obrigatória
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label for="description" class="form-label">Descrição</label>
+            <textarea 
+              class="form-control" 
+              id="description" 
+              rows="3" 
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="price" class="form-label">Preço de Venda*</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="price" 
+                formControlName="price"
+                step="0.01"
+                [ngClass]="{'is-invalid': productForm.get('price')?.invalid && productForm.get('price')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="productForm.get('price')?.errors?.['required']">
+                Preço é obrigatório
+              </div>
+              <div class="invalid-feedback" *ngIf="productForm.get('price')?.errors?.['min']">
+                Preço deve ser maior que zero
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="cost" class="form-label">Custo</label>
+            <div class="input-group">
+              <span class="input-group-text">R$</span>
+              <input 
+                type="number" 
+                class="form-control" 
+                id="cost" 
+                formControlName="cost"
+                step="0.01"
+                [ngClass]="{'is-invalid': productForm.get('cost')?.invalid && productForm.get('cost')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="productForm.get('cost')?.errors?.['min']">
+                Custo deve ser maior ou igual a zero
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="stock" class="form-label">Estoque Atual*</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="stock" 
+              formControlName="stock"
+              [ngClass]="{'is-invalid': productForm.get('stock')?.invalid && productForm.get('stock')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="productForm.get('stock')?.errors?.['required']">
+              Estoque é obrigatório
+            </div>
+            <div class="invalid-feedback" *ngIf="productForm.get('stock')?.errors?.['min']">
+              Estoque deve ser maior ou igual a zero
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label for="minStock" class="form-label">Estoque Mínimo</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              id="minStock" 
+              formControlName="minStock"
+              [ngClass]="{'is-invalid': productForm.get('minStock')?.invalid && productForm.get('minStock')?.touched}"
+            >
+            <div class="invalid-feedback" *ngIf="productForm.get('minStock')?.errors?.['min']">
+              Estoque mínimo deve ser maior ou igual a zero
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="sku" class="form-label">SKU</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="sku" 
+              formControlName="sku"
+            >
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="barcode" class="form-label">Código de Barras</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="barcode" 
+              formControlName="barcode"
+            >
+          </div>
+        </div>
+
+        <div class="form-check mb-3">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            id="active" 
+            formControlName="active"
+          >
+          <label class="form-check-label" for="active">
+            Produto Ativo
+          </label>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            {{ isEditMode ? 'Atualizar' : 'Salvar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
